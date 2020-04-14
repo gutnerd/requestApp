@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<submitResource xmlns="http://csom.fed.tmo/Facades/Resource_1/Messages" xmlns:cm="http://csom.fed.tmo/Common/Common_1" xmlns:som="http://csom.fed.tmo/SOM/SOM_1/Types" xmlns:rt="http://csom.fed.tmo/Facades/Resource_1/Types" xmlns:ce="http://csom.fed.tmo/Common/CommonEntities_1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<cm:messageContext>
+		<cm:commonContext>
+			<cm:eTrackingId>${eTrackingId}</cm:eTrackingId>
+			<cm:iTrackingId>${iTrackingId}</cm:iTrackingId>
+			<cm:sourceApplication>${sourceApplication}</cm:sourceApplication>
+			<cm:sourceUser>${sourceUser}</cm:sourceUser>
+			<cm:tenantId>${tenantId}</cm:tenantId>
+		</cm:commonContext>
+		<cm:timestamp>${timestamp}</cm:timestamp>
+	</cm:messageContext>
+	<som:orchIdentifiers>
+		<som:orderID>${orderID}</som:orderID>
+		<som:orderRef>${orderRef}</som:orderRef>
+		<som:planID>${planID}</som:planID>
+		<som:planItemID>${planItemID}</som:planItemID>
+		<som:processComponentID>${processComponentID}</som:processComponentID>
+		<som:processComponentName>${processComponentName}</som:processComponentName>
+		<som:processComponentVersion>${processComponentVersion}</som:processComponentVersion>
+		<som:originator>${originator}</som:originator>
+		<som:priority>${priority}</som:priority>
+	</som:orchIdentifiers>
+	<rt:submitResourceData>
+		<rt:actualProcessStep>${actualProcessStep}</rt:actualProcessStep>
+		<rt:entity>${entity}</rt:entity>
+		<rt:operation>${operation}</rt:operation>
+		<rt:command>${command}</rt:command>
+		<ce:characteristics>
