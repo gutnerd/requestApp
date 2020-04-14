@@ -1,1 +1,1 @@
-			<ce:value name="ATRIBUTE">${value}</ce:value>
+			<ce:value name=ATNAME>${ATRIBUTE}</ce:value>
