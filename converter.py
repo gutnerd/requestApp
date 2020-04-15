@@ -11,7 +11,7 @@ root.title("Facade request generator")
 
 #setup
 global counter
-counter = 0
+counter = -1
 
 global characteristics
 characteristics = []
@@ -27,11 +27,11 @@ characteristicsNameEntry = []
 # topFrame.grid(row=0, column=1)
 # topFrame.pack(fill=X, expand=TRUE)
 topFrame = Frame(root)
-topFrame.pack(side=LEFT, anchor=N)
+topFrame.pack(side=LEFT, anchor=N, padx=25, pady=25)
 bottomFrame = Frame(root)
-bottomFrame.pack(side=BOTTOM)
+bottomFrame.pack(side=BOTTOM, padx=25, pady=25)
 rightFrame = Frame(root)
-rightFrame.pack(side=RIGHT, anchor=N)
+rightFrame.pack(side=RIGHT, anchor=N, padx=25, pady=25)
 
 
 #Lables
@@ -134,6 +134,8 @@ characteristicsLabel.grid(row=20, column=0, pady=15, sticky=E)
 def printsumstuff(event):
     global characteristicsValueEntry
     global characteristicsNameEntry
+    length: int = len(characteristicsNameEntry)
+    print(length)
 
     FileName = FileName_Entry.get()
     eTrackingId = eTrackingId_Entry.get()
@@ -178,7 +180,7 @@ def printsumstuff(event):
         facade_temp = facade_temp.replace('${entity}', entity)
         facade_temp = facade_temp.replace('${operation}', operation)
         facade_temp = facade_temp.replace('${command}', command)
-    print(facade_temp)
+    # print(facade_temp)
 
     #create file request
     f = open(FileName + ".xml", 'w')
@@ -192,28 +194,58 @@ def printsumstuff(event):
     with open("templates/facade_template.xml", 'r') as file:
         facade_temp = file.read()
         f.write(facade_temp)
+        file.close()
     with open("templates/characteristics_templates.xml", 'r') as file:
         characteristics_temp = file.read()
-        for ch in characteristicsNameEntry:
-            var = ch.get()
-            characteristics_temp = characteristics_temp.replace('${ATRIBUTE}', var)
-            characteristics_temp = characteristics_temp.replace('ATNAME', '"' + var + '"')
-            f.write(characteristics_temp)
+        var = []
+        for i in range(len(characteristicsNameEntry)):
+            print(i)
+            var.append(topFrame.nametowidget("characteristicNameEntry" + str(i)).get())
+            print(var)
+            haha = var[i]
+            print(haha)
+            characteristic_temp = characteristics_temp.replace('${ATRIBUTE}', '${' + haha + '}')
+            characteristi_temp = characteristic_temp.replace('ATNAME', '"' + haha + '"')
+            print(characteristi_temp)
+            f.write(characteristi_temp)
+        file.close()
 
     with open("templates/end_facade_template.xml", 'r') as file:
         end_temp = file.read()
         f.write(end_temp)
+    f.close()
 
+    #.csv file
+    with open("templates/csv_template.csv", 'r') as file:
+        csv_temp = file.read()
+        f = open(FileName + ".csv", 'w')
+        f.write(csv_temp)
+        for i in range(len(characteristicsNameEntry)):
+            var.append(topFrame.nametowidget("characteristicNameEntry" + str(i)).get())
+            print(var)
+            haha = var[i]
+            print(haha)
+            f.write(',' + str(haha))
+        f.write("\n")
 
+    f.write(str(eTrackingId) + ',' + str(iTrackingId) + ',' + str(sourceApplication) + ',' + str(sourceUser) + ',' + str(tenantId) + ',' + str(timestamp) + ',' + str(orderID) + ',' + str(orderRef) + ',' + str(planID) + ',' + str(planItemID) + ',' + str(processComponentID) + ',' + str(processComponentName) + ',' + str(processComponentVersion) + ',' + str(originator) + ',' + str(priority) + ',' + str(actualProcessStep) + ',' + str(entity) + ',' + str(operation) + ',' + str(command))
+    var2 = []
+    for i in range(len(characteristicsEntry)):
+        var2.append(topFrame.nametowidget("characteristicEntry" + str(i)).get())
+        print(var2)
+        haha2 = var2[i]
+        print(haha2)
+        f.write(',' + str(haha2))
+    f.close()
 
-    #characteristics checker
-    length = len(characteristicsNameEntry)
-    print(length)
 
     #output
+    f = open(FileName + "Parametrized.xml", 'r')
+    file = f.read()
     myLable3 = Text(rightFrame)
-    myLable3.insert(END, eTrackingId)
+    myLable3.insert(END, file)
     myLable3.pack()
+    f.close()
 
 
 
@@ -226,13 +258,17 @@ def addChar(event):
     print(counter)
     characteristics.append("characteristic" + str(counter))
     characteristics[-1] = Label(topFrame, text=characteristics[-1])
-    characteristics[-1].grid(row=20+counter, column=0, sticky=E)
-    characteristicsEntry.append("characteristicEntry" + str(counter))
-    characteristicsEntry[-1] = Entry(topFrame)
-    characteristicsEntry[-1].grid(row=20+counter, column=2, sticky=E)
-    characteristicsNameEntry.append("characteristicEntry" + str(counter))
-    characteristicsNameEntry[-1] = Entry(topFrame)
-    characteristicsNameEntry[-1].grid(row=20+counter, column=1, sticky=E)
+    characteristics[-1].grid(row=21+counter, column=0, sticky=E)
+    # characteristicsEntry.append("characteristicEntry" + str(counter))
+    # characteristicsEntry[-1] = Entry(topFrame)
+    # characteristicsEntry[-1].grid(row=21+counter, column=2, sticky=E)
+
+    characteristicsNameEntry.append(Entry(topFrame, name="characteristicNameEntry" + str(counter)))
+    characteristicsNameEntry[-1].grid(row=21+counter, column=1, sticky=E)
+
+    characteristicsEntry.append(Entry(topFrame, name="characteristicEntry" + str(counter)))
+    characteristicsEntry[-1].grid(row=21+counter, column=2, sticky=E)
+
     print(characteristicsEntry)
     print(characteristicsNameEntry)
 
