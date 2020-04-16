@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from random import randint
 from tkinter import * #pip install
 from tkinter import ttk
 from xml.etree import ElementTree as ET
@@ -316,23 +317,48 @@ def deleteChar():
 
 #preset values
 def presetValues():
+    eTrack = randint(1000000000, 1001223218)
+    planIdRan = randint(100, 999)
+    planItemIdRan = randint(10, 99)
+    compID = randint(100, 999)
+    if eTrackingId_Entry.get() != "":
+        FileName_Entry.delete(0, 'end')
+        eTrackingId_Entry.delete(0, 'end')
+        iTrackingId_Entry.delete(0, 'end')
+        sourceApplication_Entry.delete(0, 'end')
+        sourceUser_Entry.delete(0, 'end')
+        tenantId_Entry.delete(0, 'end')
+        timestamp_Entry.delete(0, 'end')
+        orderID_Entry.delete(0, 'end')
+        orderRef_Entry.delete(0, 'end')
+        planID_Entry.delete(0, 'end')
+        planItemID_Entry.delete(0, 'end')
+        processComponentID_Entry.delete(0, 'end')
+        # processComponentName_Entry.delete(0, 'end')
+        processComponentVersion_Entry.delete(0, 'end')
+        originator_Entry.delete(0, 'end')
+        priority_Entry.delete(0, 'end')
+        # actualProcessStep_Entry.insert(END, '')
+        # entity_Entry.insert(END, '')
+        # operation_Entry.insert(END, '')
+        # command_Entry.insert(END, '')
     #set some default filename
     filename = "Zmen mi jmeno"
     FileName_Entry.insert(END, filename)
-    eTrackingId_Entry.insert(END, 'TEMP_O-1001223218')
-    iTrackingId_Entry.insert(END, 'TEMP_TMCZ-123-45')
-    sourceApplication_Entry.insert(END, 'TEMP_tmcz.telekom.it.architecture.COM:COM')
+    eTrackingId_Entry.insert(END, 'O-' + str(eTrack))
+    iTrackingId_Entry.insert(END, "TMCZ-" + str(planIdRan) + "-" + str(planItemIdRan))
+    sourceApplication_Entry.insert(END, 'tmcz.telekom.it.architecture.COM:COM')
     sourceUser_Entry.insert(END, 'TEMP_sourceUser')
-    tenantId_Entry.insert(END, 'TEMP_TMCZ')
+    tenantId_Entry.insert(END, 'TMCZ')
     timestamp_Entry.insert(END, '2020-03-014T10:38:00Z')
     orderID_Entry.insert(END, 'TEMP_interni_FOM_ID')
-    orderRef_Entry.insert(END, 'TEMP_O-1001223218')
-    planID_Entry.insert(END, 'TEMP_123')
-    planItemID_Entry.insert(END, 'TEMP_45')
-    processComponentID_Entry.insert(END, 'TEMP_679')
+    orderRef_Entry.insert(END, str(eTrack))
+    planID_Entry.insert(END, str(planIdRan))
+    planItemID_Entry.insert(END, str(planItemIdRan))
+    processComponentID_Entry.insert(END, str(compID))
     # processComponentName_Entry.insert(END, '')
     processComponentVersion_Entry.insert(END, '1')
-    originator_Entry.insert(END, 'TEMP_TMCZ')
+    originator_Entry.insert(END, 'TMCZ')
     priority_Entry.insert(END, '4')
     # actualProcessStep_Entry.insert(END, '')
     # entity_Entry.insert(END, '')
