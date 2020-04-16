@@ -193,7 +193,7 @@ def printsumstuff(event):
     # ind = 0
     #
     # #replace funky vars by real vars
-    # with open('templates/facade_template.xml') as oldfile, open(FileName + '.xml', 'w') as newfile:
+    # with open('templates\\facade_template.xml') as oldfile, open(FileName + '.xml', 'w') as newfile:
     #     for line in oldfile:
     #         if any(s in line for s in str_list):
     #             if str(var_list[ind]) != "":
@@ -204,77 +204,81 @@ def printsumstuff(event):
     #                 ind += 1
     #         else:
     #             newfile.write(line)
-
-    #create parametrized file request
-    ind = 0
-    #zapsani requestu
-    with open('templates/facade_template.xml') as oldfile, open("out/xml/" + FileName + 'Parametrized.xml', 'w') as newfile:
-        for line in oldfile:
-            if any(s in line for s in str_list):
-                if str(var_list[ind]) != "":
-                    newfile.write(line)
-                    ind += 1
+    if FileName != "":
+        #create parametrized file request
+        ind = 0
+        #zapsani requestu
+        with open('templates/facade_template.xml') as oldfile, open("out/xml/" + FileName + 'Parametrized.xml', 'w') as newfile:
+            for line in oldfile:
+                if any(s in line for s in str_list):
+                    if str(var_list[ind]) != "":
+                        newfile.write(line)
+                        ind += 1
+                    else:
+                        newfile.write("")
+                        ind += 1
                 else:
-                    newfile.write("")
-                    ind += 1
-            else:
-                newfile.write(line)
-        #zapsani charakteristik
-        with open("templates/characteristics_templates.xml", 'r') as file:
-            characteristics_temp = file.read()
-            # print(characteristics_temp)
-            var = []
+                    newfile.write(line)
+            #zapsani charakteristik
+            with open("templates/characteristics_templates.xml", 'r') as file:
+                characteristics_temp = file.read()
+                # print(characteristics_temp)
+                var = []
+                for i in range(len(characteristicsNameEntry)):
+                    # print(i)
+                    var.append(scrollable_frame.nametowidget("characteristicNameEntry" + str(i)).get())
+                    # print(var)
+                    haha = var[i]
+                    # print(haha)
+                    characteristic_temp = characteristics_temp.replace('${ATRIBUTE}', '${' + haha + '}')
+                    characteristi_temp = characteristic_temp.replace('ATNAME', '"' + haha + '"')
+                    # print(characteristi_temp)
+                    newfile.write(characteristi_temp)
+
+            #zapsani koncovky xml
+            with open("templates/end_facade_template.xml", 'r') as file:
+                end_temp = file.read()
+                newfile.write(end_temp)
+
+        #.csv file
+        with open("templates/csv_template.csv", 'r') as file:
+            csv_temp = file.read()
+            f = open("out/csv/" + FileName + ".csv", 'w')
+            f.write(csv_temp)
             for i in range(len(characteristicsNameEntry)):
-                # print(i)
                 var.append(scrollable_frame.nametowidget("characteristicNameEntry" + str(i)).get())
                 # print(var)
                 haha = var[i]
                 # print(haha)
-                characteristic_temp = characteristics_temp.replace('${ATRIBUTE}', '${' + haha + '}')
-                characteristi_temp = characteristic_temp.replace('ATNAME', '"' + haha + '"')
-                # print(characteristi_temp)
-                newfile.write(characteristi_temp)
+                f.write(',' + str(haha))
+            f.write("\n")
 
-        #zapsani koncovky xml
-        with open("templates/end_facade_template.xml", 'r') as file:
-            end_temp = file.read()
-            newfile.write(end_temp)
-
-    #.csv file
-    with open("templates/csv_template.csv", 'r') as file:
-        csv_temp = file.read()
-        f = open("out/csv/" + FileName + ".csv", 'w')
-        f.write(csv_temp)
-        for i in range(len(characteristicsNameEntry)):
-            var.append(scrollable_frame.nametowidget("characteristicNameEntry" + str(i)).get())
-            # print(var)
-            haha = var[i]
-            # print(haha)
-            f.write(',' + str(haha))
-        f.write("\n")
-
-    f.write(str(eTrackingId) + ',' + str(iTrackingId) + ',' + str(sourceApplication) + ',' + str(sourceUser) + ',' + str(tenantId) + ',' + str(timestamp) + ',' + str(orderID) + ',' + str(orderRef) + ',' + str(planID) + ',' + str(planItemID) + ',' + str(processComponentID) + ',' + str(processComponentName) + ',' + str(processComponentVersion) + ',' + str(originator) + ',' + str(priority) + ',' + str(actualProcessStep) + ',' + str(entity) + ',' + str(operation) + ',' + str(command))
-    var2 = []
-    for i in range(len(characteristicsEntry)):
-        var2.append(scrollable_frame.nametowidget("characteristicEntry" + str(i)).get())
-        # print(var2)
-        haha2 = var2[i]
-        # print(haha2)
-        f.write(',' + str(haha2))
-    f.close()
+        f.write(str(eTrackingId) + ',' + str(iTrackingId) + ',' + str(sourceApplication) + ',' + str(sourceUser) + ',' + str(tenantId) + ',' + str(timestamp) + ',' + str(orderID) + ',' + str(orderRef) + ',' + str(planID) + ',' + str(planItemID) + ',' + str(processComponentID) + ',' + str(processComponentName) + ',' + str(processComponentVersion) + ',' + str(originator) + ',' + str(priority) + ',' + str(actualProcessStep) + ',' + str(entity) + ',' + str(operation) + ',' + str(command))
+        var2 = []
+        for i in range(len(characteristicsEntry)):
+            var2.append(scrollable_frame.nametowidget("characteristicEntry" + str(i)).get())
+            # print(var2)
+            haha2 = var2[i]
+            # print(haha2)
+            f.write(',' + str(haha2))
+        f.close()
 
 
-    #output
-    f = open("out/xml/" + FileName + "Parametrized.xml", 'r')
-    file = f.read()
-    output = myLable3.get("1.0",'end-1c')
-    if output != "":
-        myLable3.delete('1.0', END)
-    myLable3.insert(END, file)
-    f.close()
+        #output
+        f = open("out/xml/" + FileName + "Parametrized.xml", 'r')
+        file = f.read()
+        output = myLable3.get("1.0",'end-1c')
+        if output != "":
+            myLable3.delete('1.0', END)
+        myLable3.insert(END, file)
+        f.close()
 
-    #delete filename
-    FileName_Entry.delete(0, 'end')
+        #delete filename
+        FileName_Entry.delete(0, 'end')
+        FileName_Entry['bg'] = 'WHITE'
+    else:
+        FileName_Entry['bg'] = 'RED'
+
 
 ###########################################################
 def addChar(event):
