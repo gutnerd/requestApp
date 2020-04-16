@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from tkinter import * #pip install
-import tkinter
+from tkinter import ttk
 from xml.etree import ElementTree as ET
 
 #Okno
@@ -26,35 +26,58 @@ characteristicsNameEntry = []
 # topFrame = Frame(topFrame)
 # topFrame.grid(row=0, column=1)
 # topFrame.pack(fill=X, expand=TRUE)
-topFrame = Frame(root)
+topFrame = ttk.Frame(root)
+canvas = Canvas(topFrame)
+scrollbar = ttk.Scrollbar(topFrame, orient="vertical", command=canvas.yview)
+scrollable_frame = ttk.Frame(canvas)
+
+scrollable_frame.bind(
+    "<Configure>",
+    lambda e: canvas.configure(
+        scrollregion=canvas.bbox("all")
+    )
+)
+
+canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+canvas.configure(yscrollcommand=scrollbar.set)
+
+
 topFrame.pack(side=LEFT, anchor=N, padx=25, pady=25)
+canvas.pack(side=LEFT, fill="both", expand=TRUE, ipady=500, ipadx=250)
+scrollbar.pack(side=RIGHT, fill=Y)
+
+
 bottomFrame = Frame(root)
 bottomFrame.pack(side=BOTTOM, padx=25, pady=25)
 rightFrame = Frame(root)
 rightFrame.pack(side=RIGHT, anchor=N, padx=25, pady=25)
 
+# scrollbar = ttk.Scrollbar(topFrame, command=topFrame.yview)
+# scrollbar.grid(sticky=E, fill=Y)
+# topFrame.configure(yscrollcommand=scrollbar.set)
+
 
 #Lables
-FileName_Lable = Label(topFrame, text="Filename: ")
-eTrackingId_Lable = Label(topFrame, text="eTrackingId: ")
-iTrackingId_Lable = Label(topFrame, text="iTrackingId: ")
-sourceApplication_Lable = Label(topFrame, text="sourceApplication: ")
-sourceUser_Lable = Label(topFrame, text="sourceUser: ")
-tenantId_Lable = Label(topFrame, text="tenantId: ")
-timestamp_Lable = Label(topFrame, text="timestamp: ")
-orderID_Lable = Label(topFrame, text="orderID: ")
-orderRef_Lable = Label(topFrame, text="orderRef: ")
-planID_Lable = Label(topFrame, text="planID: ")
-planItemID_Lable = Label(topFrame, text="planItemID: ")
-processComponentID_Lable = Label(topFrame, text="processComponentID: ")
-processComponentName_Lable = Label(topFrame, text="processComponentName: ")
-processComponentVersion_Lable = Label(topFrame, text="processComponentVersion: ")
-originator_Lable = Label(topFrame, text="originator: ")
-priority_Lable = Label(topFrame, text="priority: ")
-actualProcessStep_Lable = Label(topFrame, text="actualProcessStep: ")
-entity_Lable = Label(topFrame, text="entity: ")
-operation_Lable = Label(topFrame, text="operation: ")
-command_Lable = Label(topFrame, text="command: ")
+FileName_Lable = Label(scrollable_frame, text="Filename: ")
+eTrackingId_Lable = Label(scrollable_frame, text="eTrackingId: ")
+iTrackingId_Lable = Label(scrollable_frame, text="iTrackingId: ")
+sourceApplication_Lable = Label(scrollable_frame, text="sourceApplication: ")
+sourceUser_Lable = Label(scrollable_frame, text="sourceUser: ")
+tenantId_Lable = Label(scrollable_frame, text="tenantId: ")
+timestamp_Lable = Label(scrollable_frame, text="timestamp: ")
+orderID_Lable = Label(scrollable_frame, text="orderID: ")
+orderRef_Lable = Label(scrollable_frame, text="orderRef: ")
+planID_Lable = Label(scrollable_frame, text="planID: ")
+planItemID_Lable = Label(scrollable_frame, text="planItemID: ")
+processComponentID_Lable = Label(scrollable_frame, text="processComponentID: ")
+processComponentName_Lable = Label(scrollable_frame, text="processComponentName: ")
+processComponentVersion_Lable = Label(scrollable_frame, text="processComponentVersion: ")
+originator_Lable = Label(scrollable_frame, text="originator: ")
+priority_Lable = Label(scrollable_frame, text="priority: ")
+actualProcessStep_Lable = Label(scrollable_frame, text="actualProcessStep: ")
+entity_Lable = Label(scrollable_frame, text="entity: ")
+operation_Lable = Label(scrollable_frame, text="operation: ")
+command_Lable = Label(scrollable_frame, text="command: ")
 
 FileName_Lable.grid(row=1, sticky=E)
 eTrackingId_Lable.grid(row=2, sticky=E)
@@ -78,26 +101,26 @@ operation_Lable.grid(row=19, sticky=E)
 command_Lable.grid(row=20, sticky=E)
 
 #Entries
-FileName_Entry = Entry(topFrame, text="FileName: ")
-eTrackingId_Entry = Entry(topFrame, text="eTrackingId: ")
-iTrackingId_Entry = Entry(topFrame, text="iTrackingId: ")
-sourceApplication_Entry = Entry(topFrame, text="sourceApplication: ")
-sourceUser_Entry = Entry(topFrame, text="sourceUser: ")
-tenantId_Entry = Entry(topFrame, text="tenantId: ")
-timestamp_Entry = Entry(topFrame, text="timestamp: ")
-orderID_Entry = Entry(topFrame, text="orderID: ")
-orderRef_Entry = Entry(topFrame, text="orderRef: ")
-planID_Entry = Entry(topFrame, text="planID: ")
-planItemID_Entry = Entry(topFrame, text="planItemID: ")
-processComponentID_Entry = Entry(topFrame, text="processComponentID: ")
-processComponentName_Entry = Entry(topFrame, text="processComponentName: ")
-processComponentVersion_Entry = Entry(topFrame, text="processComponentVersion: ")
-originator_Entry = Entry(topFrame, text="originator: ")
-priority_Entry = Entry(topFrame, text="priority: ")
-actualProcessStep_Entry = Entry(topFrame, text="actualProcessStep: ")
-entity_Entry = Entry(topFrame, text="entity: ")
-operation_Entry = Entry(topFrame, text="operation: ")
-command_Entry = Entry(topFrame, text="command: ")
+FileName_Entry = Entry(scrollable_frame, text="FileName: ")
+eTrackingId_Entry = Entry(scrollable_frame, text="eTrackingId: ")
+iTrackingId_Entry = Entry(scrollable_frame, text="iTrackingId: ")
+sourceApplication_Entry = Entry(scrollable_frame, text="sourceApplication: ")
+sourceUser_Entry = Entry(scrollable_frame, text="sourceUser: ")
+tenantId_Entry = Entry(scrollable_frame, text="tenantId: ")
+timestamp_Entry = Entry(scrollable_frame, text="timestamp: ")
+orderID_Entry = Entry(scrollable_frame, text="orderID: ")
+orderRef_Entry = Entry(scrollable_frame, text="orderRef: ")
+planID_Entry = Entry(scrollable_frame, text="planID: ")
+planItemID_Entry = Entry(scrollable_frame, text="planItemID: ")
+processComponentID_Entry = Entry(scrollable_frame, text="processComponentID: ")
+processComponentName_Entry = Entry(scrollable_frame, text="processComponentName: ")
+processComponentVersion_Entry = Entry(scrollable_frame, text="processComponentVersion: ")
+originator_Entry = Entry(scrollable_frame, text="originator: ")
+priority_Entry = Entry(scrollable_frame, text="priority: ")
+actualProcessStep_Entry = Entry(scrollable_frame, text="actualProcessStep: ")
+entity_Entry = Entry(scrollable_frame, text="entity: ")
+operation_Entry = Entry(scrollable_frame, text="operation: ")
+command_Entry = Entry(scrollable_frame, text="command: ")
 
 FileName_Entry.grid(row=1, column=1, sticky=W)
 eTrackingId_Entry.grid(row=2, column=1, sticky=W)
@@ -125,7 +148,7 @@ myLable3.pack(ipadx=250, ipady=250)
 
 #Characteristics part
 # command_Lable = Label(topFrame, text="command: ")
-characteristicsLabel = Label(topFrame, text="Characteristics")
+characteristicsLabel = Label(scrollable_frame, text="Characteristics")
 characteristicsLabel.grid(row=21, column=0, pady=15, sticky=E)
 
 #Request input
@@ -257,13 +280,13 @@ def addChar(event):
     counter += 1
     # print(counter)
     characteristics.append("characteristic" + str(counter))
-    characteristics[-1] = Label(topFrame, text=characteristics[-1])
+    characteristics[-1] = Label(scrollable_frame, text=characteristics[-1])
     characteristics[-1].grid(row=22+counter, column=0, sticky=E)
 
-    characteristicsNameEntry.append(Entry(topFrame, name="characteristicNameEntry" + str(counter)))
+    characteristicsNameEntry.append(Entry(scrollable_frame, name="characteristicNameEntry" + str(counter)))
     characteristicsNameEntry[-1].grid(row=22+counter, column=1, sticky=E)
 
-    characteristicsEntry.append(Entry(topFrame, name="characteristicEntry" + str(counter)))
+    characteristicsEntry.append(Entry(scrollable_frame, name="characteristicEntry" + str(counter)))
     characteristicsEntry[-1].grid(row=22+counter, column=2, sticky=E)
 
     # print(characteristicsEntry)
@@ -325,16 +348,16 @@ requestButton.pack(side=BOTTOM, pady=10)
 requestButton.bind("<Button-1>", printsumstuff)
 
 #secondary button
-addCharacteristicButton = Button(topFrame, text="Add a characteristic")
+addCharacteristicButton = Button(scrollable_frame, text="Add a characteristic")
 addCharacteristicButton.grid(row=21, column=1, pady=15, sticky=W)
 addCharacteristicButton.bind("<Button-1>", addChar)
 
 #tertiary button
-setValuesButton = Button(topFrame, text="Delete a characteristic", command=deleteChar)
+setValuesButton = Button(scrollable_frame, text="Delete a characteristic", command=deleteChar)
 setValuesButton.grid(row=21, column=2, pady=15, sticky=W)
 
 #quaternary button
-setValuesButton = Button(topFrame, text="Preset values", command=presetValues)
+setValuesButton = Button(scrollable_frame, text="Preset values", command=presetValues)
 setValuesButton.grid(row=0, column=1, pady=15, sticky=W)
 
 topFrame.mainloop()
