@@ -5,7 +5,7 @@ from xml.etree import ElementTree as ET
 
 #Okno
 root = Tk()
-root.geometry("700x500")
+root.geometry("900x700")
 root.title("Facade request generator")
 
 
@@ -56,26 +56,26 @@ entity_Lable = Label(topFrame, text="entity: ")
 operation_Lable = Label(topFrame, text="operation: ")
 command_Lable = Label(topFrame, text="command: ")
 
-FileName_Lable.grid(row=0, sticky=E)
-eTrackingId_Lable.grid(row=1, sticky=E)
-iTrackingId_Lable.grid(row=2, sticky=E)
-sourceApplication_Lable.grid(row=3, sticky=E)
-sourceUser_Lable.grid(row=4, sticky=E)
-tenantId_Lable.grid(row=5, sticky=E)
-timestamp_Lable.grid(row=6, sticky=E)
-orderID_Lable.grid(row=7, sticky=E)
-orderRef_Lable.grid(row=8, sticky=E)
-planID_Lable.grid(row=9, sticky=E)
-planItemID_Lable.grid(row=10, sticky=E)
-processComponentID_Lable.grid(row=11, sticky=E)
-processComponentName_Lable.grid(row=12, sticky=E)
-processComponentVersion_Lable.grid(row=13, sticky=E)
-originator_Lable.grid(row=14, sticky=E)
-priority_Lable.grid(row=15, sticky=E)
-actualProcessStep_Lable.grid(row=16, sticky=E)
-entity_Lable.grid(row=17, sticky=E)
-operation_Lable.grid(row=18, sticky=E)
-command_Lable.grid(row=19, sticky=E)
+FileName_Lable.grid(row=1, sticky=E)
+eTrackingId_Lable.grid(row=2, sticky=E)
+iTrackingId_Lable.grid(row=3, sticky=E)
+sourceApplication_Lable.grid(row=4, sticky=E)
+sourceUser_Lable.grid(row=5, sticky=E)
+tenantId_Lable.grid(row=6, sticky=E)
+timestamp_Lable.grid(row=7, sticky=E)
+orderID_Lable.grid(row=8, sticky=E)
+orderRef_Lable.grid(row=9, sticky=E)
+planID_Lable.grid(row=10, sticky=E)
+planItemID_Lable.grid(row=11, sticky=E)
+processComponentID_Lable.grid(row=12, sticky=E)
+processComponentName_Lable.grid(row=13, sticky=E)
+processComponentVersion_Lable.grid(row=14, sticky=E)
+originator_Lable.grid(row=15, sticky=E)
+priority_Lable.grid(row=16, sticky=E)
+actualProcessStep_Lable.grid(row=17, sticky=E)
+entity_Lable.grid(row=18, sticky=E)
+operation_Lable.grid(row=19, sticky=E)
+command_Lable.grid(row=20, sticky=E)
 
 #Entries
 FileName_Entry = Entry(topFrame, text="FileName: ")
@@ -99,31 +99,34 @@ entity_Entry = Entry(topFrame, text="entity: ")
 operation_Entry = Entry(topFrame, text="operation: ")
 command_Entry = Entry(topFrame, text="command: ")
 
-FileName_Entry.grid(row=0, column=1, sticky=W)
-eTrackingId_Entry.grid(row=1, column=1, sticky=W)
-iTrackingId_Entry.grid(row=2, column=1, sticky=W)
-sourceApplication_Entry.grid(row=3, column=1, sticky=W)
-sourceUser_Entry.grid(row=4, column=1, sticky=W)
-tenantId_Entry.grid(row=5, column=1, sticky=W)
-timestamp_Entry.grid(row=6, column=1, sticky=W)
-orderID_Entry.grid(row=7, column=1, sticky=W)
-orderRef_Entry.grid(row=8, column=1, sticky=W)
-planID_Entry.grid(row=9, column=1, sticky=W)
-planItemID_Entry.grid(row=10, column=1, sticky=W)
-processComponentID_Entry.grid(row=11, column=1, sticky=W)
-processComponentName_Entry.grid(row=12, column=1, sticky=W)
-processComponentVersion_Entry.grid(row=13, column=1, sticky=W)
-originator_Entry.grid(row=14, column=1, sticky=W)
-priority_Entry.grid(row=15, column=1, sticky=W)
-actualProcessStep_Entry.grid(row=16, column=1, sticky=W)
-entity_Entry.grid(row=17, column=1, sticky=W)
-operation_Entry.grid(row=18, column=1, sticky=W)
-command_Entry.grid(row=19, column=1, sticky=W)
+FileName_Entry.grid(row=1, column=1, sticky=W)
+eTrackingId_Entry.grid(row=2, column=1, sticky=W)
+iTrackingId_Entry.grid(row=3, column=1, sticky=W)
+sourceApplication_Entry.grid(row=4, column=1, sticky=W)
+sourceUser_Entry.grid(row=5, column=1, sticky=W)
+tenantId_Entry.grid(row=6, column=1, sticky=W)
+timestamp_Entry.grid(row=7, column=1, sticky=W)
+orderID_Entry.grid(row=8, column=1, sticky=W)
+orderRef_Entry.grid(row=9, column=1, sticky=W)
+planID_Entry.grid(row=10, column=1, sticky=W)
+planItemID_Entry.grid(row=11, column=1, sticky=W)
+processComponentID_Entry.grid(row=12, column=1, sticky=W)
+processComponentName_Entry.grid(row=13, column=1, sticky=W)
+processComponentVersion_Entry.grid(row=14, column=1, sticky=W)
+originator_Entry.grid(row=15, column=1, sticky=W)
+priority_Entry.grid(row=16, column=1, sticky=W)
+actualProcessStep_Entry.grid(row=17, column=1, sticky=W)
+entity_Entry.grid(row=18, column=1, sticky=W)
+operation_Entry.grid(row=19, column=1, sticky=W)
+command_Entry.grid(row=20, column=1, sticky=W)
+
+myLable3 = Text(rightFrame)
+myLable3.pack(ipadx=250, ipady=250)
 
 #Characteristics part
-command_Lable = Label(topFrame, text="command: ")
+# command_Lable = Label(topFrame, text="command: ")
 characteristicsLabel = Label(topFrame, text="Characteristics")
-characteristicsLabel.grid(row=20, column=0, pady=15, sticky=E)
+characteristicsLabel.grid(row=21, column=0, pady=15, sticky=E)
 
 #Request input
 # requestInput = Entry(topFrame)
@@ -134,8 +137,6 @@ characteristicsLabel.grid(row=20, column=0, pady=15, sticky=E)
 def printsumstuff(event):
     global characteristicsValueEntry
     global characteristicsNameEntry
-    length: int = len(characteristicsNameEntry)
-    print(length)
 
     FileName = FileName_Entry.get()
     eTrackingId = eTrackingId_Entry.get()
@@ -158,73 +159,73 @@ def printsumstuff(event):
     operation = operation_Entry.get()
     command = command_Entry.get()
 
-    #replace funny vars by real vars
-    with open("templates/facade_template.xml", 'r') as file:
-        facade_temp = file.read()
-        facade_temp = facade_temp.replace('${eTrackingId}', eTrackingId)
-        facade_temp = facade_temp.replace('${iTrackingId}', iTrackingId)
-        facade_temp = facade_temp.replace('${sourceApplication}', sourceApplication)
-        facade_temp = facade_temp.replace('${sourceUser}', sourceUser)
-        facade_temp = facade_temp.replace('${tenantId}', tenantId)
-        facade_temp = facade_temp.replace('${timestamp}', timestamp)
-        facade_temp = facade_temp.replace('${orderID}', orderID)
-        facade_temp = facade_temp.replace('${orderRef}', orderRef)
-        facade_temp = facade_temp.replace('${planID}', planID)
-        facade_temp = facade_temp.replace('${planItemID}', planItemID)
-        facade_temp = facade_temp.replace('${processComponentID}', processComponentID)
-        facade_temp = facade_temp.replace('${processComponentName}', processComponentName)
-        facade_temp = facade_temp.replace('${processComponentVersion}', processComponentVersion)
-        facade_temp = facade_temp.replace('${originator}', originator)
-        facade_temp = facade_temp.replace('${priority}', priority)
-        facade_temp = facade_temp.replace('${actualProcessStep}', actualProcessStep)
-        facade_temp = facade_temp.replace('${entity}', entity)
-        facade_temp = facade_temp.replace('${operation}', operation)
-        facade_temp = facade_temp.replace('${command}', command)
-    # print(facade_temp)
+    #list with variables to write to file
+    var_list = [eTrackingId, iTrackingId, sourceApplication, sourceUser, tenantId, timestamp, orderID, orderRef, planID, planItemID, processComponentID, processComponentName, processComponentVersion, originator, priority, actualProcessStep, entity, operation, command]
+    str_list = ['${eTrackingId}', '${iTrackingId}', '${sourceApplication}', '${sourceUser}', '${tenantId}', '${timestamp}', '${orderID}', '${orderRef}', '${planID}', '${planItemID}', '${processComponentID}', '${processComponentName}', '${processComponentVersion}', '${originator}', '${priority}', '${actualProcessStep}', '${entity}', '${operation}', '${command}']
+    print(var_list)
+    print(str_list)
 
-    #create file request
-    f = open(FileName + ".xml", 'w')
-    f.write(facade_temp)
-    f.close()
+#AZ BUDE CAS DODELAM GENEROVANI XML SOUBORU
+    # ind = 0
+    #
+    # #replace funky vars by real vars
+    # with open('templates/facade_template.xml') as oldfile, open(FileName + '.xml', 'w') as newfile:
+    #     for line in oldfile:
+    #         if any(s in line for s in str_list):
+    #             if str(var_list[ind]) != "":
+    #                 newfile.write(line)
+    #                 ind += 1
+    #             else:
+    #                 newfile.write("")
+    #                 ind += 1
+    #         else:
+    #             newfile.write(line)
 
     #create parametrized file request
-    f = open(FileName + "Parametrized.xml", 'w')
+    ind = 0
+    #zapsani requestu
+    with open('templates/facade_template.xml') as oldfile, open("out/xml/" + FileName + 'Parametrized.xml', 'w') as newfile:
+        for line in oldfile:
+            if any(s in line for s in str_list):
+                if str(var_list[ind]) != "":
+                    newfile.write(line)
+                    ind += 1
+                else:
+                    newfile.write("")
+                    ind += 1
+            else:
+                newfile.write(line)
+        #zapsani charakteristik
+        with open("templates/characteristics_templates.xml", 'r') as file:
+            characteristics_temp = file.read()
+            # print(characteristics_temp)
+            var = []
+            for i in range(len(characteristicsNameEntry)):
+                # print(i)
+                var.append(topFrame.nametowidget("characteristicNameEntry" + str(i)).get())
+                # print(var)
+                haha = var[i]
+                # print(haha)
+                characteristic_temp = characteristics_temp.replace('${ATRIBUTE}', '${' + haha + '}')
+                characteristi_temp = characteristic_temp.replace('ATNAME', '"' + haha + '"')
+                # print(characteristi_temp)
+                newfile.write(characteristi_temp)
 
-    #create jmeter template
-    with open("templates/facade_template.xml", 'r') as file:
-        facade_temp = file.read()
-        f.write(facade_temp)
-        file.close()
-    with open("templates/characteristics_templates.xml", 'r') as file:
-        characteristics_temp = file.read()
-        var = []
-        for i in range(len(characteristicsNameEntry)):
-            print(i)
-            var.append(topFrame.nametowidget("characteristicNameEntry" + str(i)).get())
-            print(var)
-            haha = var[i]
-            print(haha)
-            characteristic_temp = characteristics_temp.replace('${ATRIBUTE}', '${' + haha + '}')
-            characteristi_temp = characteristic_temp.replace('ATNAME', '"' + haha + '"')
-            print(characteristi_temp)
-            f.write(characteristi_temp)
-        file.close()
-
-    with open("templates/end_facade_template.xml", 'r') as file:
-        end_temp = file.read()
-        f.write(end_temp)
-    f.close()
+        #zapsani koncovky xml
+        with open("templates/end_facade_template.xml", 'r') as file:
+            end_temp = file.read()
+            newfile.write(end_temp)
 
     #.csv file
     with open("templates/csv_template.csv", 'r') as file:
         csv_temp = file.read()
-        f = open(FileName + ".csv", 'w')
+        f = open("out/csv/" + FileName + ".csv", 'w')
         f.write(csv_temp)
         for i in range(len(characteristicsNameEntry)):
             var.append(topFrame.nametowidget("characteristicNameEntry" + str(i)).get())
-            print(var)
+            # print(var)
             haha = var[i]
-            print(haha)
+            # print(haha)
             f.write(',' + str(haha))
         f.write("\n")
 
@@ -232,49 +233,88 @@ def printsumstuff(event):
     var2 = []
     for i in range(len(characteristicsEntry)):
         var2.append(topFrame.nametowidget("characteristicEntry" + str(i)).get())
-        print(var2)
+        # print(var2)
         haha2 = var2[i]
-        print(haha2)
+        # print(haha2)
         f.write(',' + str(haha2))
     f.close()
 
 
     #output
-    f = open(FileName + "Parametrized.xml", 'r')
+    f = open("out/xml/" + FileName + "Parametrized.xml", 'r')
     file = f.read()
-    myLable3 = Text(rightFrame)
+    output = myLable3.get("1.0",'end-1c')
+    if output != "":
+        myLable3.delete('1.0', END)
     myLable3.insert(END, file)
-    myLable3.pack()
     f.close()
 
-
-
-
+###########################################################
 def addChar(event):
     global counter
     global characteristicsValueEntry
     global characteristicsNameEntry
     counter += 1
-    print(counter)
+    # print(counter)
     characteristics.append("characteristic" + str(counter))
     characteristics[-1] = Label(topFrame, text=characteristics[-1])
-    characteristics[-1].grid(row=21+counter, column=0, sticky=E)
-    # characteristicsEntry.append("characteristicEntry" + str(counter))
-    # characteristicsEntry[-1] = Entry(topFrame)
-    # characteristicsEntry[-1].grid(row=21+counter, column=2, sticky=E)
+    characteristics[-1].grid(row=22+counter, column=0, sticky=E)
 
     characteristicsNameEntry.append(Entry(topFrame, name="characteristicNameEntry" + str(counter)))
-    characteristicsNameEntry[-1].grid(row=21+counter, column=1, sticky=E)
+    characteristicsNameEntry[-1].grid(row=22+counter, column=1, sticky=E)
 
     characteristicsEntry.append(Entry(topFrame, name="characteristicEntry" + str(counter)))
-    characteristicsEntry[-1].grid(row=21+counter, column=2, sticky=E)
+    characteristicsEntry[-1].grid(row=22+counter, column=2, sticky=E)
 
-    print(characteristicsEntry)
-    print(characteristicsNameEntry)
-
-
+    # print(characteristicsEntry)
+    # print(characteristicsNameEntry)
 
 
+
+
+#delete a characteristic
+def deleteChar():
+    global counter
+    #get last added characteristic elements
+    labelToDestroy = characteristics[-1]
+    characteristicsEntryToDestroy = characteristicsEntry[-1]
+    characteristicsNameEntryToDestroy = characteristicsNameEntry[-1]
+
+    #destroy a characteristic
+    labelToDestroy.destroy()
+    characteristicsEntryToDestroy.destroy()
+    characteristicsNameEntryToDestroy.destroy()
+
+    #unset elements from element list
+    characteristics.remove(characteristics[-1])
+    characteristicsEntry.remove(characteristicsEntry[-1])
+    characteristicsNameEntry.remove(characteristicsNameEntry[-1])
+    counter -= 1
+
+#preset values
+def presetValues():
+    #set some default filename
+    filename = "Zmen mi jmeno"
+    FileName_Entry.insert(END, filename)
+    eTrackingId_Entry.insert(END, 'TEMP_O-1001223218')
+    iTrackingId_Entry.insert(END, 'TEMP_TMCZ-123-45')
+    sourceApplication_Entry.insert(END, 'TEMP_tmcz.telekom.it.architecture.COM:COM')
+    sourceUser_Entry.insert(END, 'TEMP_sourceUser')
+    tenantId_Entry.insert(END, 'TEMP_TMCZ')
+    timestamp_Entry.insert(END, '2020-03-014T10:38:00Z')
+    orderID_Entry.insert(END, 'TEMP_interni_FOM_ID')
+    orderRef_Entry.insert(END, 'TEMP_O-1001223218')
+    planID_Entry.insert(END, 'TEMP_123')
+    planItemID_Entry.insert(END, 'TEMP_45')
+    processComponentID_Entry.insert(END, 'TEMP_679')
+    # processComponentName_Entry.insert(END, '')
+    processComponentVersion_Entry.insert(END, '1')
+    originator_Entry.insert(END, 'TEMP_TMCZ')
+    priority_Entry.insert(END, '4')
+    # actualProcessStep_Entry.insert(END, '')
+    # entity_Entry.insert(END, '')
+    # operation_Entry.insert(END, '')
+    # command_Entry.insert(END, '')
 
 ##############
 #####Buttons
@@ -286,18 +326,15 @@ requestButton.bind("<Button-1>", printsumstuff)
 
 #secondary button
 addCharacteristicButton = Button(topFrame, text="Add a characteristic")
-addCharacteristicButton.grid(row=20, column=1, pady=15, sticky=W)
+addCharacteristicButton.grid(row=21, column=1, pady=15, sticky=W)
 addCharacteristicButton.bind("<Button-1>", addChar)
 
-#
-# #Lable
-# myLable = Label(topFrame, text="Request App")
-# myLable.pack(side=RIGHT)
-#
-# #Lable
-# myLable2 = Label(topFrame, text="Request App", bg="blue", fg="white")
-# myLable2.pack(fill=Y, expand=TRUE)
+#tertiary button
+setValuesButton = Button(topFrame, text="Delete a characteristic", command=deleteChar)
+setValuesButton.grid(row=21, column=2, pady=15, sticky=W)
 
-
+#quaternary button
+setValuesButton = Button(topFrame, text="Preset values", command=presetValues)
+setValuesButton.grid(row=0, column=1, pady=15, sticky=W)
 
 topFrame.mainloop()
