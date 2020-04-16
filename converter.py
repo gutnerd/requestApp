@@ -273,6 +273,9 @@ def printsumstuff(event):
     myLable3.insert(END, file)
     f.close()
 
+    #delete filename
+    FileName_Entry.delete(0, 'end')
+
 ###########################################################
 def addChar(event):
     global counter
