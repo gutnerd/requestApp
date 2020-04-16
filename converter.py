@@ -169,7 +169,7 @@ def printsumstuff(event):
     # ind = 0
     #
     # #replace funky vars by real vars
-    # with open('templates/facade_template.xml') as oldfile, open(FileName + '.xml', 'w') as newfile:
+    # with open('templates\\facade_template.xml') as oldfile, open(FileName + '.xml', 'w') as newfile:
     #     for line in oldfile:
     #         if any(s in line for s in str_list):
     #             if str(var_list[ind]) != "":
@@ -184,7 +184,7 @@ def printsumstuff(event):
     #create parametrized file request
     ind = 0
     #zapsani requestu
-    with open('templates/facade_template.xml') as oldfile, open("out/xml/" + FileName + 'Parametrized.xml', 'w') as newfile:
+    with open('templates\\facade_template.xml') as oldfile, open("out\\xml\\" + FileName + 'Parametrized.xml', 'w') as newfile:
         for line in oldfile:
             if any(s in line for s in str_list):
                 if str(var_list[ind]) != "":
@@ -196,7 +196,7 @@ def printsumstuff(event):
             else:
                 newfile.write(line)
         #zapsani charakteristik
-        with open("templates/characteristics_templates.xml", 'r') as file:
+        with open("templates\\characteristics_templates.xml", 'r') as file:
             characteristics_temp = file.read()
             # print(characteristics_temp)
             var = []
@@ -212,14 +212,14 @@ def printsumstuff(event):
                 newfile.write(characteristi_temp)
 
         #zapsani koncovky xml
-        with open("templates/end_facade_template.xml", 'r') as file:
+        with open("templates\\end_facade_template.xml", 'r') as file:
             end_temp = file.read()
             newfile.write(end_temp)
 
     #.csv file
-    with open("templates/csv_template.csv", 'r') as file:
+    with open("templates\\csv_template.csv", 'r') as file:
         csv_temp = file.read()
-        f = open("out/csv/" + FileName + ".csv", 'w')
+        f = open("out\\csv\\" + FileName + ".csv", 'w')
         f.write(csv_temp)
         for i in range(len(characteristicsNameEntry)):
             var.append(topFrame.nametowidget("characteristicNameEntry" + str(i)).get())
@@ -241,7 +241,7 @@ def printsumstuff(event):
 
 
     #output
-    f = open("out/xml/" + FileName + "Parametrized.xml", 'r')
+    f = open("out\\xml\\" + FileName + "Parametrized.xml", 'r')
     file = f.read()
     output = myLable3.get("1.0",'end-1c')
     if output != "":
