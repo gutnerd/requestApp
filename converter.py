@@ -225,7 +225,7 @@ def printsumstuff(event):
             var = []
             for i in range(len(characteristicsNameEntry)):
                 # print(i)
-                var.append(topFrame.nametowidget("characteristicNameEntry" + str(i)).get())
+                var.append(scrollable_frame.nametowidget("characteristicNameEntry" + str(i)).get())
                 # print(var)
                 haha = var[i]
                 # print(haha)
@@ -245,7 +245,7 @@ def printsumstuff(event):
         f = open("out\\csv\\" + FileName + ".csv", 'w')
         f.write(csv_temp)
         for i in range(len(characteristicsNameEntry)):
-            var.append(topFrame.nametowidget("characteristicNameEntry" + str(i)).get())
+            var.append(scrollable_frame.nametowidget("characteristicNameEntry" + str(i)).get())
             # print(var)
             haha = var[i]
             # print(haha)
@@ -255,7 +255,7 @@ def printsumstuff(event):
     f.write(str(eTrackingId) + ',' + str(iTrackingId) + ',' + str(sourceApplication) + ',' + str(sourceUser) + ',' + str(tenantId) + ',' + str(timestamp) + ',' + str(orderID) + ',' + str(orderRef) + ',' + str(planID) + ',' + str(planItemID) + ',' + str(processComponentID) + ',' + str(processComponentName) + ',' + str(processComponentVersion) + ',' + str(originator) + ',' + str(priority) + ',' + str(actualProcessStep) + ',' + str(entity) + ',' + str(operation) + ',' + str(command))
     var2 = []
     for i in range(len(characteristicsEntry)):
-        var2.append(topFrame.nametowidget("characteristicEntry" + str(i)).get())
+        var2.append(scrollable_frame.nametowidget("characteristicEntry" + str(i)).get())
         # print(var2)
         haha2 = var2[i]
         # print(haha2)
