@@ -25,6 +25,8 @@ characteristicsNameEntry = []
 
 global chvar1
 global chvar2
+chvar1 = IntVar()
+chvar2 = IntVar()
 # topFrame = Frame(topFrame)
 # topFrame.grid(row=0, column=0)
 # topFrame = Frame(topFrame)
@@ -126,26 +128,26 @@ entity_Entry = Entry(scrollable_frame, text="entity: ")
 operation_Entry = Entry(scrollable_frame, text="operation: ")
 command_Entry = Entry(scrollable_frame, text="command: ")
 
-FileName_Entry.grid(row=1, column=1, sticky=W)
-eTrackingId_Entry.grid(row=2, column=1, sticky=W)
-iTrackingId_Entry.grid(row=3, column=1, sticky=W)
-sourceApplication_Entry.grid(row=4, column=1, sticky=W)
-sourceUser_Entry.grid(row=5, column=1, sticky=W)
-tenantId_Entry.grid(row=6, column=1, sticky=W)
-timestamp_Entry.grid(row=7, column=1, sticky=W)
-orderID_Entry.grid(row=8, column=1, sticky=W)
-orderRef_Entry.grid(row=9, column=1, sticky=W)
-planID_Entry.grid(row=10, column=1, sticky=W)
-planItemID_Entry.grid(row=11, column=1, sticky=W)
-processComponentID_Entry.grid(row=12, column=1, sticky=W)
-processComponentName_Entry.grid(row=13, column=1, sticky=W)
-processComponentVersion_Entry.grid(row=14, column=1, sticky=W)
-originator_Entry.grid(row=15, column=1, sticky=W)
-priority_Entry.grid(row=16, column=1, sticky=W)
-actualProcessStep_Entry.grid(row=17, column=1, sticky=W)
-entity_Entry.grid(row=18, column=1, sticky=W)
-operation_Entry.grid(row=19, column=1, sticky=W)
-command_Entry.grid(row=20, column=1, sticky=W)
+FileName_Entry.grid(row=1, column=1, sticky=W, ipadx=100)
+eTrackingId_Entry.grid(row=2, column=1, sticky=W, ipadx=100)
+iTrackingId_Entry.grid(row=3, column=1, sticky=W, ipadx=100)
+sourceApplication_Entry.grid(row=4, column=1, sticky=W, ipadx=100)
+sourceUser_Entry.grid(row=5, column=1, sticky=W, ipadx=100)
+tenantId_Entry.grid(row=6, column=1, sticky=W, ipadx=100)
+timestamp_Entry.grid(row=7, column=1, sticky=W, ipadx=100)
+orderID_Entry.grid(row=8, column=1, sticky=W, ipadx=100)
+orderRef_Entry.grid(row=9, column=1, sticky=W, ipadx=100)
+planID_Entry.grid(row=10, column=1, sticky=W, ipadx=100)
+planItemID_Entry.grid(row=11, column=1, sticky=W, ipadx=100)
+processComponentID_Entry.grid(row=12, column=1, sticky=W, ipadx=100)
+processComponentName_Entry.grid(row=13, column=1, sticky=W, ipadx=100)
+processComponentVersion_Entry.grid(row=14, column=1, sticky=W, ipadx=100)
+originator_Entry.grid(row=15, column=1, sticky=W, ipadx=100)
+priority_Entry.grid(row=16, column=1, sticky=W, ipadx=100)
+actualProcessStep_Entry.grid(row=17, column=1, sticky=W, ipadx=100)
+entity_Entry.grid(row=18, column=1, sticky=W, ipadx=100)
+operation_Entry.grid(row=19, column=1, sticky=W, ipadx=100)
+command_Entry.grid(row=20, column=1, sticky=W, ipadx=100)
 
 myLable3 = Text(rightFrame)
 myLable3.pack(ipadx=250, ipady=250)
@@ -323,6 +325,7 @@ def printsumstuff(event):
     else:
         FileName_Entry['bg'] = 'RED'
 
+
 ###########################################################
 def addChar(event):
     global counter
@@ -430,7 +433,7 @@ def presetValues():
 ##############
 #main button
 requestButton = Button(bottomFrame, text="Generate request")
-requestButton.pack(side=BOTTOM, pady=10)
+requestButton.grid(row=0, sticky=N)
 requestButton.bind("<Button-1>", printsumstuff)
 
 #labels for file generation
@@ -440,6 +443,7 @@ chkbtn2 = Checkbutton(bottomFrame, text="xml", variable=chvar2, onvalue = 1, off
 chkbtn1.grid(row=1, column=0, sticky=W)
 chkbtn2.grid(row=2, column=0, sticky=W)
 
+
 #secondary button
 addCharacteristicButton = Button(scrollable_frame, text="Add a characteristic")
 addCharacteristicButton.grid(row=21, column=1, pady=15, sticky=W)
@@ -447,7 +451,7 @@ addCharacteristicButton.bind("<Button-1>", addChar)
 
 #tertiary button
 setValuesButton = Button(scrollable_frame, text="Delete a characteristic", command=deleteChar)
-setValuesButton.grid(row=21, column=2, pady=15, sticky=W)
+setValuesButton.grid(row=21, column=1, pady=15, sticky=E)
 
 #quaternary button
 setValuesButton = Button(scrollable_frame, text="Generate values", command=presetValues)
