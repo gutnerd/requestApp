@@ -167,8 +167,8 @@ def printsumstuff(event):
     global chvar1
     global chvar2
 
-    print(chvar1.get())
-    print(chvar2.get())
+    # print(chvar1.get())
+    # print(chvar2.get())
     # var2 = IntVar()
     # print(var2.state())
 
@@ -199,24 +199,52 @@ def printsumstuff(event):
     #list with variables to write to file
     var_list = [eTrackingId, iTrackingId, sourceApplication, sourceUser, tenantId, timestamp, orderID, orderRef, planID, planItemID, processComponentID, processComponentName, processComponentVersion, originator, priority, actualProcessStep, entity, operation, command]
     str_list = ['${eTrackingId}', '${iTrackingId}', '${sourceApplication}', '${sourceUser}', '${tenantId}', '${timestamp}', '${orderID}', '${orderRef}', '${planID}', '${planItemID}', '${processComponentID}', '${processComponentName}', '${processComponentVersion}', '${originator}', '${priority}', '${actualProcessStep}', '${entity}', '${operation}', '${command}']
-    print(var_list)
-    print(str_list)
+    # print(var_list)
+    # print(str_list)
 
-#AZ BUDE CAS DODELAM GENEROVANI XML SOUBORU
-    # ind = 0
-    #
-    # #replace funky vars by real vars
-    # with open('templates\\facade_template.xml') as oldfile, open(FileName + '.xml', 'w') as newfile:
-    #     for line in oldfile:
-    #         if any(s in line for s in str_list):
-    #             if str(var_list[ind]) != "":
-    #                 newfile.write(line)
-    #                 ind += 1
-    #             else:
-    #                 newfile.write("")
-    #                 ind += 1
-    #         else:
-    #             newfile.write(line)
+    if FileName != "":
+    #Raw xml
+        ind = 0
+
+        #replace funky vars by real vars
+        with open('templates/facade_template.xml') as oldfile, open("out/raw/" + FileName + '.xml', 'w') as newfile:
+            for line in oldfile:
+                if any(s in line for s in str_list):
+                    if str(var_list[ind]) != "":
+                        line = line.replace(str_list[ind], str(var_list[ind]))
+                        newfile.write(line)
+                        ind += 1
+                    else:
+                        newfile.write("")
+                        ind += 1
+                else:
+                    newfile.write(line)
+            with open("templates/characteristics_templates.xml", 'r') as file:
+                characteristics_temp = file.read()
+                print(characteristics_temp)
+                var = []
+                val = []
+                print(len(characteristicsNameEntry))
+                for i in range(len(characteristicsNameEntry)):
+                    print(i)
+                    var.append(scrollable_frame.nametowidget("characteristicNameEntry" + str(i)).get())
+                    val.append(scrollable_frame.nametowidget("characteristicEntry" + str(i)).get())
+                    print(val)
+                    haha = str(var[i])
+                    ahaha = str(val[i])
+
+                    # print(haha)
+                    characteristic_temp = characteristics_temp.replace('${ATRIBUTE}', ahaha)
+                    characteristi_temp = characteristic_temp.replace('ATNAME', '"' + haha + '"')
+                    # print(characteristi_temp)
+                    newfile.write(characteristi_temp)
+            # zapsani koncovky xml
+            with open("templates/end_facade_template.xml", 'r') as file:
+                end_temp = file.read()
+                newfile.write(end_temp)
+    else:
+        print("badluck1")
+#####################################################################################################################
     if FileName != "":
         if chvar2.get() == 1:
             #create parametrized file request
@@ -255,7 +283,7 @@ def printsumstuff(event):
                     end_temp = file.read()
                     newfile.write(end_temp)
         else:
-            print("badluck1")
+            print("badluck2")
         if chvar1.get() == 1:
             #.csv file
             with open("templates/csv_template.csv", 'r') as file:
@@ -280,7 +308,7 @@ def printsumstuff(event):
                 f.write(',' + str(haha2))
             f.close()
         else:
-            print("badluck2")
+            print("badluck3")
         if chvar2.get() == 1:
             #output
             f = open("out/xml/" + FileName + "Parametrized.xml", 'r')
