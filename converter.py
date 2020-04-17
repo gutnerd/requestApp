@@ -405,7 +405,7 @@ def presetValues():
     tenantId_Entry.insert(END, 'TMCZ')
     timestamp_Entry.insert(END, '2020-03-014T10:38:00Z')
     orderID_Entry.insert(END, 'TEMP_interni_FOM_ID')
-    orderRef_Entry.insert(END, str(eTrack))
+    orderRef_Entry.insert(END, 'O-' + str(eTrack))
     planID_Entry.insert(END, str(planIdRan))
     planItemID_Entry.insert(END, str(planItemIdRan))
     processComponentID_Entry.insert(END, str(compID))
