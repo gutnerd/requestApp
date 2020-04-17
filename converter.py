@@ -22,6 +22,11 @@ characteristicsEntry = []
 
 global characteristicsNameEntry
 characteristicsNameEntry = []
+
+global chvar1
+global chvar2
+chvar1 = IntVar()
+chvar2 = IntVar()
 # topFrame = Frame(topFrame)
 # topFrame.grid(row=0, column=0)
 # topFrame = Frame(topFrame)
@@ -159,6 +164,14 @@ characteristicsLabel.grid(row=21, column=0, pady=15, sticky=E)
 # requestInput.pack(side=LEFT, fill=X, expand=TRUE)
 
 def printsumstuff(event):
+    global chvar1
+    global chvar2
+
+    print(chvar1.get())
+    print(chvar2.get())
+    # var2 = IntVar()
+    # print(var2.state())
+
     global characteristicsValueEntry
     global characteristicsNameEntry
 
@@ -205,73 +218,78 @@ def printsumstuff(event):
     #         else:
     #             newfile.write(line)
     if FileName != "":
-        #create parametrized file request
-        ind = 0
-        #zapsani requestu
-        with open('templates/facade_template.xml') as oldfile, open("out/xml/" + FileName + 'Parametrized.xml', 'w') as newfile:
-            for line in oldfile:
-                if any(s in line for s in str_list):
-                    if str(var_list[ind]) != "":
-                        newfile.write(line)
-                        ind += 1
+        if chvar2.get() == 1:
+            #create parametrized file request
+            ind = 0
+            #zapsani requestu
+
+            with open('templates/facade_template.xml') as oldfile, open("out/xml/" + FileName + 'Parametrized.xml', 'w') as newfile:
+                for line in oldfile:
+                    if any(s in line for s in str_list):
+                        if str(var_list[ind]) != "":
+                            newfile.write(line)
+                            ind += 1
+                        else:
+                            newfile.write("")
+                            ind += 1
                     else:
-                        newfile.write("")
-                        ind += 1
-                else:
-                    newfile.write(line)
-            #zapsani charakteristik
-            with open("templates/characteristics_templates.xml", 'r') as file:
-                characteristics_temp = file.read()
-                # print(characteristics_temp)
-                var = []
+                        newfile.write(line)
+                #zapsani charakteristik
+                with open("templates/characteristics_templates.xml", 'r') as file:
+                    characteristics_temp = file.read()
+                    # print(characteristics_temp)
+                    var = []
+                    for i in range(len(characteristicsNameEntry)):
+                        # print(i)
+                        var.append(scrollable_frame.nametowidget("characteristicNameEntry" + str(i)).get())
+                        # print(var)
+                        haha = var[i]
+                        # print(haha)
+                        characteristic_temp = characteristics_temp.replace('${ATRIBUTE}', '${' + haha + '}')
+                        characteristi_temp = characteristic_temp.replace('ATNAME', '"' + haha + '"')
+                        # print(characteristi_temp)
+                        newfile.write(characteristi_temp)
+
+                #zapsani koncovky xml
+                with open("templates/end_facade_template.xml", 'r') as file:
+                    end_temp = file.read()
+                    newfile.write(end_temp)
+        else:
+            print("badluck1")
+        if chvar1.get() == 1:
+            #.csv file
+            with open("templates/csv_template.csv", 'r') as file:
+                csv_temp = file.read()
+                f = open("out/csv/" + FileName + ".csv", 'w')
+                f.write(csv_temp)
                 for i in range(len(characteristicsNameEntry)):
-                    # print(i)
                     var.append(scrollable_frame.nametowidget("characteristicNameEntry" + str(i)).get())
                     # print(var)
                     haha = var[i]
                     # print(haha)
-                    characteristic_temp = characteristics_temp.replace('${ATRIBUTE}', '${' + haha + '}')
-                    characteristi_temp = characteristic_temp.replace('ATNAME', '"' + haha + '"')
-                    # print(characteristi_temp)
-                    newfile.write(characteristi_temp)
+                    f.write(',' + str(haha))
+                f.write("\n")
 
-            #zapsani koncovky xml
-            with open("templates/end_facade_template.xml", 'r') as file:
-                end_temp = file.read()
-                newfile.write(end_temp)
-
-        #.csv file
-        with open("templates/csv_template.csv", 'r') as file:
-            csv_temp = file.read()
-            f = open("out/csv/" + FileName + ".csv", 'w')
-            f.write(csv_temp)
-            for i in range(len(characteristicsNameEntry)):
-                var.append(scrollable_frame.nametowidget("characteristicNameEntry" + str(i)).get())
-                # print(var)
-                haha = var[i]
-                # print(haha)
-                f.write(',' + str(haha))
-            f.write("\n")
-
-        f.write(str(eTrackingId) + ',' + str(iTrackingId) + ',' + str(sourceApplication) + ',' + str(sourceUser) + ',' + str(tenantId) + ',' + str(timestamp) + ',' + str(orderID) + ',' + str(orderRef) + ',' + str(planID) + ',' + str(planItemID) + ',' + str(processComponentID) + ',' + str(processComponentName) + ',' + str(processComponentVersion) + ',' + str(originator) + ',' + str(priority) + ',' + str(actualProcessStep) + ',' + str(entity) + ',' + str(operation) + ',' + str(command))
-        var2 = []
-        for i in range(len(characteristicsEntry)):
-            var2.append(scrollable_frame.nametowidget("characteristicEntry" + str(i)).get())
-            # print(var2)
-            haha2 = var2[i]
-            # print(haha2)
-            f.write(',' + str(haha2))
-        f.close()
-
-
-        #output
-        f = open("out/xml/" + FileName + "Parametrized.xml", 'r')
-        file = f.read()
-        output = myLable3.get("1.0",'end-1c')
-        if output != "":
-            myLable3.delete('1.0', END)
-        myLable3.insert(END, file)
-        f.close()
+            f.write(str(eTrackingId) + ',' + str(iTrackingId) + ',' + str(sourceApplication) + ',' + str(sourceUser) + ',' + str(tenantId) + ',' + str(timestamp) + ',' + str(orderID) + ',' + str(orderRef) + ',' + str(planID) + ',' + str(planItemID) + ',' + str(processComponentID) + ',' + str(processComponentName) + ',' + str(processComponentVersion) + ',' + str(originator) + ',' + str(priority) + ',' + str(actualProcessStep) + ',' + str(entity) + ',' + str(operation) + ',' + str(command))
+            var2 = []
+            for i in range(len(characteristicsEntry)):
+                var2.append(scrollable_frame.nametowidget("characteristicEntry" + str(i)).get())
+                # print(var2)
+                haha2 = var2[i]
+                # print(haha2)
+                f.write(',' + str(haha2))
+            f.close()
+        else:
+            print("badluck2")
+        if chvar2.get() == 1:
+            #output
+            f = open("out/xml/" + FileName + "Parametrized.xml", 'r')
+            file = f.read()
+            output = myLable3.get("1.0",'end-1c')
+            if output != "":
+                myLable3.delete('1.0', END)
+            myLable3.insert(END, file)
+            f.close()
 
         #delete filename
         FileName_Entry.delete(0, 'end')
@@ -377,8 +395,16 @@ def presetValues():
 ##############
 #main button
 requestButton = Button(bottomFrame, text="Generate request")
-requestButton.pack(side=BOTTOM, pady=10)
+requestButton.grid(row=0, sticky=N)
 requestButton.bind("<Button-1>", printsumstuff)
+
+#labels for file generation
+# Label(bottomFrame, text="csv").grid(row=1, column=0, sticky=S)
+chkbtn1 = Checkbutton(bottomFrame, text="csv", variable=chvar1, onvalue = 1, offvalue = 0)
+chkbtn2 = Checkbutton(bottomFrame, text="xml", variable=chvar2, onvalue = 1, offvalue = 0)
+chkbtn1.grid(row=1, column=0, sticky=W)
+chkbtn2.grid(row=2, column=0, sticky=W)
+
 
 #secondary button
 addCharacteristicButton = Button(scrollable_frame, text="Add a characteristic")
