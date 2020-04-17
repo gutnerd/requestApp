@@ -361,7 +361,7 @@ def printsumstuff(event):
 
 
 ###########################################################
-def addChar(event):
+def addChar(charName ="", charValue=""):
     global counter
     global characteristicsValueEntry
     global characteristicsNameEntry
@@ -376,6 +376,9 @@ def addChar(event):
 
     characteristicsEntry.append(Entry(scrollable_frame, name="characteristicEntry" + str(counter-1)))
     characteristicsEntry[-1].grid(row=21+counter, column=2, sticky=E)
+
+    characteristicsNameEntry[-1].insert(0,charName)
+    characteristicsEntry[-1].insert(0,charValue)
 
     # print(characteristicsEntry)
     # print(characteristicsNameEntry)
@@ -487,7 +490,7 @@ def openFile():
             textbox.delete(0,"end")
             textbox.insert(0,value)
         else:
-            addChar()
+            addChar(key,value)
 
 
 
