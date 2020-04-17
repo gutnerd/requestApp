@@ -3,6 +3,7 @@ from random import randint
 from tkinter import * #pip install
 from tkinter import ttk
 from xml.etree import ElementTree as ET
+from pathlib import Path
 
 #Okno
 root = Tk()
@@ -207,7 +208,7 @@ def printsumstuff(event):
         ind = 0
 
         #replace funky vars by real vars
-        with open('templates/facade_template.xml') as oldfile, open("out/raw/" + FileName + '.xml', 'w') as newfile:
+        with open(Path('templates/facade_template.xml')) as oldfile, open(Path("out/raw/" + FileName + '.xml'), 'w') as newfile:
             for line in oldfile:
                 if any(s in line for s in str_list):
                     if str(var_list[ind]) != "":
@@ -219,7 +220,7 @@ def printsumstuff(event):
                         ind += 1
                 else:
                     newfile.write(line)
-            with open("templates/characteristics_templates.xml", 'r') as file:
+            with open(Path("templates/characteristics_templates.xml"), 'r') as file:
                 characteristics_temp = file.read()
                 print(characteristics_temp)
                 var = []
@@ -239,7 +240,7 @@ def printsumstuff(event):
                     # print(characteristi_temp)
                     newfile.write(characteristi_temp)
             # zapsani koncovky xml
-            with open("templates/end_facade_template.xml", 'r') as file:
+            with open(Path("templates/end_facade_template.xml"), 'r') as file:
                 end_temp = file.read()
                 newfile.write(end_temp)
     else:
@@ -251,7 +252,7 @@ def printsumstuff(event):
             ind = 0
             #zapsani requestu
 
-            with open('templates/facade_template.xml') as oldfile, open("out/xml/" + FileName + 'Parametrized.xml', 'w') as newfile:
+            with open(Path('templates/facade_template.xml')) as oldfile, open(Path("out/xml/" + FileName + 'Parametrized.xml'), 'w') as newfile:
                 for line in oldfile:
                     if any(s in line for s in str_list):
                         if str(var_list[ind]) != "":
@@ -263,7 +264,7 @@ def printsumstuff(event):
                     else:
                         newfile.write(line)
                 #zapsani charakteristik
-                with open("templates/characteristics_templates.xml", 'r') as file:
+                with open(Path("templates/characteristics_templates.xml"), 'r') as file:
                     characteristics_temp = file.read()
                     # print(characteristics_temp)
                     var = []
@@ -279,16 +280,16 @@ def printsumstuff(event):
                         newfile.write(characteristi_temp)
 
                 #zapsani koncovky xml
-                with open("templates/end_facade_template.xml", 'r') as file:
+                with open(Path("templates/end_facade_template.xml"), 'r') as file:
                     end_temp = file.read()
                     newfile.write(end_temp)
         else:
             print("badluck2")
         if chvar1.get() == 1:
             #.csv file
-            with open("templates/csv_template.csv", 'r') as file:
+            with open(Path("templates/csv_template.csv"), 'r') as file:
                 csv_temp = file.read()
-                f = open("out/csv/" + FileName + ".csv", 'w')
+                f = open(Path("out/csv/" + FileName + ".csv"), 'w')
                 f.write(csv_temp)
                 for i in range(len(characteristicsNameEntry)):
                     var.append(scrollable_frame.nametowidget("characteristicNameEntry" + str(i)).get())
@@ -311,7 +312,7 @@ def printsumstuff(event):
             print("badluck3")
         if chvar2.get() == 1:
             #output
-            f = open("out/xml/" + FileName + "Parametrized.xml", 'r')
+            f = open(Path("out/xml/" + FileName + "Parametrized.xml"), 'r')
             file = f.read()
             output = myLable3.get("1.0",'end-1c')
             if output != "":
