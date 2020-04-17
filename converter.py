@@ -436,13 +436,16 @@ def openFile():
         for row in reader:
             records.append(row)
 
-    # removes all characteristics fields
+# remove all characteristics fields
     while (counter > 0):
         deleteChar()
-
+# select the first record
     record = records[0]
 
-    print(record)
+    textboxFilename = dataElements["fileName"]["entry"]
+    textboxFilename.delete(0,"end")
+    textboxFilename.insert(0,file.stem)
+
     for key, value in record.items():
         if key in dataElements:
             textbox = dataElements[key]["entry"]
