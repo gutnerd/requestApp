@@ -2,8 +2,13 @@
 from random import randint
 from tkinter import * #pip install
 from tkinter import ttk
+from tkinter import filedialog
 from xml.etree import ElementTree as ET
 from pathlib import Path
+import csv
+
+
+
 
 #Okno
 root = Tk()
@@ -13,7 +18,7 @@ root.title("Facade request generator")
 
 #setup
 global counter
-counter = -1
+counter = 0
 
 global characteristics
 characteristics = []
@@ -65,6 +70,32 @@ rightFrame.pack(side=RIGHT, anchor=N, padx=25, pady=25)
 
 
 #Lables
+
+dataElements = {'fileName':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="Filename: ")},
+                'eTrackingId':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="eTrackingId: ")},
+                'iTrackingId':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="iTrackingId: ")},
+                'sourceApplication':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="sourceApplication: ")},
+                'sourceUser':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="sourceUser: ")},
+                'tenantId':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="tenantId: ")},
+                'timestamp':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="timestamp: ")},
+                'orderID':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="orderID: ")},
+                'orderRef':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="orderRef: ")},
+                'planID':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="planID: ")},
+                'planItemID':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="planItemID: ")},
+                'processComponentID':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="processComponentID: ")},
+                'processComponentName':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="processComponentName: ")},
+                'processComponentVersion':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="processComponentVersion: ")},
+                'originator':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="originator: ")},
+                'priority':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="priority: ")},
+                'actualProcessStep':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="actualProcessStep: ")},
+                'entity':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="entity: ")},
+                'operation':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="operation: ")},
+                'command':{'entry':Entry(scrollable_frame), 'label':Label(scrollable_frame, text="command: ")},
+                }
+
+
+
+
 FileName_Lable = Label(scrollable_frame, text="Filename: ")
 eTrackingId_Lable = Label(scrollable_frame, text="eTrackingId: ")
 iTrackingId_Lable = Label(scrollable_frame, text="iTrackingId: ")
@@ -108,8 +139,8 @@ operation_Lable.grid(row=19, sticky=E)
 command_Lable.grid(row=20, sticky=E)
 
 #Entries
-FileName_Entry = Entry(scrollable_frame, text="FileName: ")
-eTrackingId_Entry = Entry(scrollable_frame, text="eTrackingId: ")
+FileName_Entry = Entry(scrollable_frame)
+#eTrackingId_Entry = Entry(scrollable_frame)
 iTrackingId_Entry = Entry(scrollable_frame, text="iTrackingId: ")
 sourceApplication_Entry = Entry(scrollable_frame, text="sourceApplication: ")
 sourceUser_Entry = Entry(scrollable_frame, text="sourceUser: ")
@@ -129,26 +160,28 @@ entity_Entry = Entry(scrollable_frame, text="entity: ")
 operation_Entry = Entry(scrollable_frame, text="operation: ")
 command_Entry = Entry(scrollable_frame, text="command: ")
 
-FileName_Entry.grid(row=1, column=1, sticky=W, ipadx=100)
-eTrackingId_Entry.grid(row=2, column=1, sticky=W, ipadx=100)
-iTrackingId_Entry.grid(row=3, column=1, sticky=W, ipadx=100)
-sourceApplication_Entry.grid(row=4, column=1, sticky=W, ipadx=100)
-sourceUser_Entry.grid(row=5, column=1, sticky=W, ipadx=100)
-tenantId_Entry.grid(row=6, column=1, sticky=W, ipadx=100)
-timestamp_Entry.grid(row=7, column=1, sticky=W, ipadx=100)
-orderID_Entry.grid(row=8, column=1, sticky=W, ipadx=100)
-orderRef_Entry.grid(row=9, column=1, sticky=W, ipadx=100)
-planID_Entry.grid(row=10, column=1, sticky=W, ipadx=100)
-planItemID_Entry.grid(row=11, column=1, sticky=W, ipadx=100)
-processComponentID_Entry.grid(row=12, column=1, sticky=W, ipadx=100)
-processComponentName_Entry.grid(row=13, column=1, sticky=W, ipadx=100)
-processComponentVersion_Entry.grid(row=14, column=1, sticky=W, ipadx=100)
-originator_Entry.grid(row=15, column=1, sticky=W, ipadx=100)
-priority_Entry.grid(row=16, column=1, sticky=W, ipadx=100)
-actualProcessStep_Entry.grid(row=17, column=1, sticky=W, ipadx=100)
-entity_Entry.grid(row=18, column=1, sticky=W, ipadx=100)
-operation_Entry.grid(row=19, column=1, sticky=W, ipadx=100)
-command_Entry.grid(row=20, column=1, sticky=W, ipadx=100)
+#FileName["entry"].grid(row=1, column=1, sticky=W, ipadx=100)
+dataElements["fileName"]["entry"].grid(row=1, column=1, sticky=W, ipadx=100)
+#eTrackingId["entry"].grid(row=2, column=1, sticky=W, ipadx=100)
+dataElements["eTrackingId"]["entry"].grid(row=2, column=1, sticky=W, ipadx=100)
+dataElements["iTrackingId"]["entry"].grid(row=3, column=1, sticky=W, ipadx=100)
+dataElements["sourceApplication"]["entry"].grid(row=4, column=1, sticky=W, ipadx=100)
+dataElements["sourceUser"]["entry"].grid(row=5, column=1, sticky=W, ipadx=100)
+dataElements["tenantId"]["entry"].grid(row=6, column=1, sticky=W, ipadx=100)
+dataElements["timestamp"]["entry"].grid(row=7, column=1, sticky=W, ipadx=100)
+dataElements["orderID"]["entry"].grid(row=8, column=1, sticky=W, ipadx=100)
+dataElements["orderRef"]["entry"].grid(row=9, column=1, sticky=W, ipadx=100)
+dataElements["planID"]["entry"].grid(row=10, column=1, sticky=W, ipadx=100)
+dataElements["planItemID"]["entry"].grid(row=11, column=1, sticky=W, ipadx=100)
+dataElements["processComponentID"]["entry"].grid(row=12, column=1, sticky=W, ipadx=100)
+dataElements["processComponentName"]["entry"].grid(row=13, column=1, sticky=W, ipadx=100)
+dataElements["processComponentVersion"]["entry"].grid(row=14, column=1, sticky=W, ipadx=100)
+dataElements["originator"]["entry"].grid(row=15, column=1, sticky=W, ipadx=100)
+dataElements["priority"]["entry"].grid(row=16, column=1, sticky=W, ipadx=100)
+dataElements["actualProcessStep"]["entry"].grid(row=17, column=1, sticky=W, ipadx=100)
+dataElements["entity"]["entry"].grid(row=18, column=1, sticky=W, ipadx=100)
+dataElements["operation"]["entry"].grid(row=19, column=1, sticky=W, ipadx=100)
+dataElements["command"]["entry"].grid(row=20, column=1, sticky=W, ipadx=100)
 
 myLable3 = Text(rightFrame)
 myLable3.pack(ipadx=250, ipady=250)
@@ -334,15 +367,15 @@ def addChar(event):
     global characteristicsNameEntry
     counter += 1
     # print(counter)
-    characteristics.append("characteristic" + str(counter))
+    characteristics.append("characteristic" + str(counter-1))
     characteristics[-1] = Label(scrollable_frame, text=characteristics[-1])
-    characteristics[-1].grid(row=22+counter, column=0, sticky=E)
+    characteristics[-1].grid(row=21+counter, column=0, sticky=E)
 
-    characteristicsNameEntry.append(Entry(scrollable_frame, name="characteristicNameEntry" + str(counter)))
-    characteristicsNameEntry[-1].grid(row=22+counter, column=1, sticky=E)
+    characteristicsNameEntry.append(Entry(scrollable_frame, name="characteristicNameEntry" + str(counter-1)))
+    characteristicsNameEntry[-1].grid(row=21+counter, column=1, sticky=E)
 
-    characteristicsEntry.append(Entry(scrollable_frame, name="characteristicEntry" + str(counter)))
-    characteristicsEntry[-1].grid(row=22+counter, column=2, sticky=E)
+    characteristicsEntry.append(Entry(scrollable_frame, name="characteristicEntry" + str(counter-1)))
+    characteristicsEntry[-1].grid(row=21+counter, column=2, sticky=E)
 
     # print(characteristicsEntry)
     # print(characteristicsNameEntry)
@@ -429,6 +462,40 @@ def presetValues():
     # operation_Entry.insert(END, '')
     # command_Entry.insert(END, '')
 
+
+def openFile():
+
+    file = Path(filedialog.askopenfilename(filetypes=[("CSV files", ".csv")]))
+
+    records = list()
+
+    with open (file) as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            records.append(row)
+
+#removes all characteristics fields
+    while (counter > 0):
+        deleteChar()
+
+    record = records[0]
+
+    print(record)
+    for key, value in record.items():
+        if key in dataElements:
+            textbox = dataElements[key]["entry"]
+            textbox.delete(0,"end")
+            textbox.insert(0,value)
+        else:
+            addChar()
+
+
+
+
+
+
+
+
 ##############
 #####Buttons
 ##############
@@ -436,6 +503,9 @@ def presetValues():
 requestButton = Button(bottomFrame, text="Generate request")
 requestButton.grid(row=0, sticky=N)
 requestButton.bind("<Button-1>", printsumstuff)
+
+
+
 
 #labels for file generation
 # Label(bottomFrame, text="csv").grid(row=1, column=0, sticky=S)
@@ -457,5 +527,8 @@ setValuesButton.grid(row=21, column=1, pady=15, sticky=E)
 #quaternary button
 setValuesButton = Button(scrollable_frame, text="Generate values", command=presetValues)
 setValuesButton.grid(row=0, column=1, pady=15, sticky=W)
+
+openFileButton = Button(scrollable_frame, text = "Open file", command=openFile)
+openFileButton.grid(row=0, column=2, pady=15, sticky=W)
 
 topFrame.mainloop()
