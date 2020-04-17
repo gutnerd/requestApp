@@ -22,6 +22,9 @@ characteristicsEntry = []
 
 global characteristicsNameEntry
 characteristicsNameEntry = []
+
+global chvar1
+global chvar2
 # topFrame = Frame(topFrame)
 # topFrame.grid(row=0, column=0)
 # topFrame = Frame(topFrame)
@@ -429,6 +432,13 @@ def presetValues():
 requestButton = Button(bottomFrame, text="Generate request")
 requestButton.pack(side=BOTTOM, pady=10)
 requestButton.bind("<Button-1>", printsumstuff)
+
+#labels for file generation
+# Label(bottomFrame, text="csv").grid(row=1, column=0, sticky=S)
+chkbtn1 = Checkbutton(bottomFrame, text="csv", variable=chvar1, onvalue = 1, offvalue = 0)
+chkbtn2 = Checkbutton(bottomFrame, text="xml", variable=chvar2, onvalue = 1, offvalue = 0)
+chkbtn1.grid(row=1, column=0, sticky=W)
+chkbtn2.grid(row=2, column=0, sticky=W)
 
 #secondary button
 addCharacteristicButton = Button(scrollable_frame, text="Add a characteristic")
