@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 from random import randint
-from tkinter import * #pip install
+from tkinter import *  # pip install
 from tkinter import ttk
+from tkinter import filedialog
 from xml.etree import ElementTree as ET
 from pathlib import Path
+import csv
 
-#Okno
+# Okno
 root = Tk()
 root.geometry("900x700")
 root.title("Facade request generator")
 
-
-#setup
+# setup
 global counter
-counter = -1
+counter = 0
 
 global characteristics
 characteristics = []
@@ -28,11 +29,7 @@ global chvar1
 global chvar2
 chvar1 = IntVar()
 chvar2 = IntVar()
-# topFrame = Frame(topFrame)
-# topFrame.grid(row=0, column=0)
-# topFrame = Frame(topFrame)
-# topFrame.grid(row=0, column=1)
-# topFrame.pack(fill=X, expand=TRUE)
+
 topFrame = ttk.Frame(root)
 canvas = Canvas(topFrame)
 scrollbar = ttk.Scrollbar(topFrame, orient="vertical", command=canvas.yview)
@@ -71,101 +68,79 @@ bottomFrame.pack(side=BOTTOM, padx=25, pady=25)
 rightFrame = Frame(root)
 rightFrame.pack(side=RIGHT, anchor=N, padx=25, pady=25)
 
-# scrollbar = ttk.Scrollbar(topFrame, command=topFrame.yview)
-# scrollbar.grid(sticky=E, fill=Y)
-# topFrame.configure(yscrollcommand=scrollbar.set)
+# Lables
 
 
-#Lables
-FileName_Lable = Label(scrollable_frame, text="Filename: ")
-eTrackingId_Lable = Label(scrollable_frame, text="eTrackingId: ")
-iTrackingId_Lable = Label(scrollable_frame, text="iTrackingId: ")
-sourceApplication_Lable = Label(scrollable_frame, text="sourceApplication: ")
-sourceUser_Lable = Label(scrollable_frame, text="sourceUser: ")
-tenantId_Lable = Label(scrollable_frame, text="tenantId: ")
-timestamp_Lable = Label(scrollable_frame, text="timestamp: ")
-orderID_Lable = Label(scrollable_frame, text="orderID: ")
-orderRef_Lable = Label(scrollable_frame, text="orderRef: ")
-planID_Lable = Label(scrollable_frame, text="planID: ")
-planItemID_Lable = Label(scrollable_frame, text="planItemID: ")
-processComponentID_Lable = Label(scrollable_frame, text="processComponentID: ")
-processComponentName_Lable = Label(scrollable_frame, text="processComponentName: ")
-processComponentVersion_Lable = Label(scrollable_frame, text="processComponentVersion: ")
-originator_Lable = Label(scrollable_frame, text="originator: ")
-priority_Lable = Label(scrollable_frame, text="priority: ")
-actualProcessStep_Lable = Label(scrollable_frame, text="actualProcessStep: ")
-entity_Lable = Label(scrollable_frame, text="entity: ")
-operation_Lable = Label(scrollable_frame, text="operation: ")
-command_Lable = Label(scrollable_frame, text="command: ")
+dataElements = dict(fileName={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="Filename: ")},
+                    eTrackingId={'entry': Entry(scrollable_frame),
+                                 'label': Label(scrollable_frame, text="eTrackingId: ")},
+                    iTrackingId={'entry': Entry(scrollable_frame),
+                                 'label': Label(scrollable_frame, text="iTrackingId: ")},
+                    sourceApplication={'entry': Entry(scrollable_frame),
+                                       'label': Label(scrollable_frame, text="sourceApplication: ")},
+                    sourceUser={'entry': Entry(scrollable_frame),
+                                'label': Label(scrollable_frame, text="sourceUser: ")},
+                    tenantId={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="tenantId: ")},
+                    timestamp={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="timestamp: ")},
+                    orderID={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="orderID: ")},
+                    orderRef={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="orderRef: ")},
+                    planID={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="planID: ")},
+                    planItemID={'entry': Entry(scrollable_frame),
+                                'label': Label(scrollable_frame, text="planItemID: ")},
+                    processComponentID={'entry': Entry(scrollable_frame),
+                                        'label': Label(scrollable_frame, text="processComponentID: ")},
+                    processComponentName={'entry': Entry(scrollable_frame),
+                                          'label': Label(scrollable_frame, text="processComponentName: ")},
+                    processComponentVersion={'entry': Entry(scrollable_frame),
+                                             'label': Label(scrollable_frame, text="processComponentVersion: ")},
+                    originator={'entry': Entry(scrollable_frame),
+                                'label': Label(scrollable_frame, text="originator: ")},
+                    priority={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="priority: ")},
+                    actualProcessStep={'entry': Entry(scrollable_frame),
+                                       'label': Label(scrollable_frame, text="actualProcessStep: ")},
+                    entity={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="entity: ")},
+                    operation={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="operation: ")},
+                    command={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="command: ")})
 
-FileName_Lable.grid(row=1, sticky=E)
-eTrackingId_Lable.grid(row=2, sticky=E)
-iTrackingId_Lable.grid(row=3, sticky=E)
-sourceApplication_Lable.grid(row=4, sticky=E)
-sourceUser_Lable.grid(row=5, sticky=E)
-tenantId_Lable.grid(row=6, sticky=E)
-timestamp_Lable.grid(row=7, sticky=E)
-orderID_Lable.grid(row=8, sticky=E)
-orderRef_Lable.grid(row=9, sticky=E)
-planID_Lable.grid(row=10, sticky=E)
-planItemID_Lable.grid(row=11, sticky=E)
-processComponentID_Lable.grid(row=12, sticky=E)
-processComponentName_Lable.grid(row=13, sticky=E)
-processComponentVersion_Lable.grid(row=14, sticky=E)
-originator_Lable.grid(row=15, sticky=E)
-priority_Lable.grid(row=16, sticky=E)
-actualProcessStep_Lable.grid(row=17, sticky=E)
-entity_Lable.grid(row=18, sticky=E)
-operation_Lable.grid(row=19, sticky=E)
-command_Lable.grid(row=20, sticky=E)
+# draw data element labels and textboxes
+i = 1
+for element in dataElements:
+    dataElements[element]["label"].grid(row=i, sticky=E)
+    dataElements[element]["entry"].grid(row=i, column=1, sticky=W, ipadx=100)
+    i += 1
 
-#Entries
-FileName_Entry = Entry(scrollable_frame, text="FileName: ")
-eTrackingId_Entry = Entry(scrollable_frame, text="eTrackingId: ")
-iTrackingId_Entry = Entry(scrollable_frame, text="iTrackingId: ")
-sourceApplication_Entry = Entry(scrollable_frame, text="sourceApplication: ")
-sourceUser_Entry = Entry(scrollable_frame, text="sourceUser: ")
-tenantId_Entry = Entry(scrollable_frame, text="tenantId: ")
-timestamp_Entry = Entry(scrollable_frame, text="timestamp: ")
-orderID_Entry = Entry(scrollable_frame, text="orderID: ")
-orderRef_Entry = Entry(scrollable_frame, text="orderRef: ")
-planID_Entry = Entry(scrollable_frame, text="planID: ")
-planItemID_Entry = Entry(scrollable_frame, text="planItemID: ")
-processComponentID_Entry = Entry(scrollable_frame, text="processComponentID: ")
-processComponentName_Entry = Entry(scrollable_frame, text="processComponentName: ")
-processComponentVersion_Entry = Entry(scrollable_frame, text="processComponentVersion: ")
-originator_Entry = Entry(scrollable_frame, text="originator: ")
-priority_Entry = Entry(scrollable_frame, text="priority: ")
-actualProcessStep_Entry = Entry(scrollable_frame, text="actualProcessStep: ")
-entity_Entry = Entry(scrollable_frame, text="entity: ")
-operation_Entry = Entry(scrollable_frame, text="operation: ")
-command_Entry = Entry(scrollable_frame, text="command: ")
-
-FileName_Entry.grid(row=1, column=1, sticky=W, ipadx=100)
-eTrackingId_Entry.grid(row=2, column=1, sticky=W, ipadx=100)
-iTrackingId_Entry.grid(row=3, column=1, sticky=W, ipadx=100)
-sourceApplication_Entry.grid(row=4, column=1, sticky=W, ipadx=100)
-sourceUser_Entry.grid(row=5, column=1, sticky=W, ipadx=100)
-tenantId_Entry.grid(row=6, column=1, sticky=W, ipadx=100)
-timestamp_Entry.grid(row=7, column=1, sticky=W, ipadx=100)
-orderID_Entry.grid(row=8, column=1, sticky=W, ipadx=100)
-orderRef_Entry.grid(row=9, column=1, sticky=W, ipadx=100)
-planID_Entry.grid(row=10, column=1, sticky=W, ipadx=100)
-planItemID_Entry.grid(row=11, column=1, sticky=W, ipadx=100)
-processComponentID_Entry.grid(row=12, column=1, sticky=W, ipadx=100)
-processComponentName_Entry.grid(row=13, column=1, sticky=W, ipadx=100)
-processComponentVersion_Entry.grid(row=14, column=1, sticky=W, ipadx=100)
-originator_Entry.grid(row=15, column=1, sticky=W, ipadx=100)
-priority_Entry.grid(row=16, column=1, sticky=W, ipadx=100)
-actualProcessStep_Entry.grid(row=17, column=1, sticky=W, ipadx=100)
-entity_Entry.grid(row=18, column=1, sticky=W, ipadx=100)
-operation_Entry.grid(row=19, column=1, sticky=W, ipadx=100)
-command_Entry.grid(row=20, column=1, sticky=W, ipadx=100)
+    # variables for legacy functions
+    FileName_Entry = dataElements["fileName"]["entry"]
+    eTrackingId_Entry = dataElements["eTrackingId"]["entry"]
+    iTrackingId_Entry = dataElements["iTrackingId"]["entry"]
+    sourceApplication_Entry = dataElements["sourceApplication"]["entry"]
+    sourceUser_Entry = dataElements["sourceUser"]["entry"]
+    tenantId_Entry = dataElements["tenantId"]["entry"]
+    timestamp_Entry = dataElements["timestamp"]["entry"]
+    orderID_Entry = dataElements["orderID"]["entry"]
+    orderRef_Entry = dataElements["orderRef"]["entry"]
+    planID_Entry = dataElements["planID"]["entry"]
+    planItemID_Entry = dataElements["planItemID"]["entry"]
+    processComponentID_Entry = dataElements["processComponentID"]["entry"]
+    processComponentName_Entry = dataElements["processComponentName"]["entry"]
+    processComponentVersion_Entry = dataElements["processComponentVersion"]["entry"]
+    originator_Entry = dataElements["originator"]["entry"]
+    priority_Entry = dataElements["priority"]["entry"]
+    actualProcessStep_Entry = dataElements["actualProcessStep"]["entry"]
+    entity_Entry = dataElements["entity"]["entry"]
+    operation_Entry = dataElements["operation"]["entry"]
+    command_Entry = dataElements["command"]["entry"]
 
 myLable3 = Text(rightFrame)
 myLable3.pack(ipadx=250, ipady=250)
 
-#Request input
+# Characteristics part
+# command_Lable = Label(topFrame, text="command: ")
+characteristicsLabel = Label(scrollable_frame, text="Characteristics")
+characteristicsLabel.grid(row=21, column=0, pady=15, sticky=E)
+
+
+# Request input
 # requestInput = Entry(topFrame)
 # requestInput.grid(row=0, column=1)
 # requestInput.pack(side = LEFT)  #ipadx=150, ipady=200
@@ -174,12 +149,6 @@ myLable3.pack(ipadx=250, ipady=250)
 def printsumstuff(event):
     global chvar1
     global chvar2
-
-    # print(chvar1.get())
-    # print(chvar2.get())
-    # var2 = IntVar()
-    # print(var2.state())
-
     global characteristicsValueEntry
     global characteristicsNameEntry
 
@@ -204,18 +173,24 @@ def printsumstuff(event):
     operation = operation_Entry.get()
     command = command_Entry.get()
 
-    #list with variables to write to file
-    var_list = [eTrackingId, iTrackingId, sourceApplication, sourceUser, tenantId, timestamp, orderID, orderRef, planID, planItemID, processComponentID, processComponentName, processComponentVersion, originator, priority, actualProcessStep, entity, operation, command]
-    str_list = ['${eTrackingId}', '${iTrackingId}', '${sourceApplication}', '${sourceUser}', '${tenantId}', '${timestamp}', '${orderID}', '${orderRef}', '${planID}', '${planItemID}', '${processComponentID}', '${processComponentName}', '${processComponentVersion}', '${originator}', '${priority}', '${actualProcessStep}', '${entity}', '${operation}', '${command}']
+    # list with variables to write to file
+    var_list = [eTrackingId, iTrackingId, sourceApplication, sourceUser, tenantId, timestamp, orderID, orderRef, planID,
+                planItemID, processComponentID, processComponentName, processComponentVersion, originator, priority,
+                actualProcessStep, entity, operation, command]
+    str_list = ['${eTrackingId}', '${iTrackingId}', '${sourceApplication}', '${sourceUser}', '${tenantId}',
+                '${timestamp}', '${orderID}', '${orderRef}', '${planID}', '${planItemID}', '${processComponentID}',
+                '${processComponentName}', '${processComponentVersion}', '${originator}', '${priority}',
+                '${actualProcessStep}', '${entity}', '${operation}', '${command}']
     # print(var_list)
     # print(str_list)
 
     if FileName != "":
-    #Raw xml
+        # Raw xml
         ind = 0
 
-        #replace funky vars by real vars
-        with open(Path('templates/facade_template.xml')) as oldfile, open(Path("out/raw/" + FileName + '.xml'), 'w') as newfile:
+        # replace funky vars by real vars
+        with open(Path('templates/facade_template.xml')) as oldfile, open(Path("out/raw/" + FileName + '.xml'),
+                                                                          'w') as newfile:
             for line in oldfile:
                 if any(s in line for s in str_list):
                     if str(var_list[ind]) != "":
@@ -252,14 +227,15 @@ def printsumstuff(event):
                 newfile.write(end_temp)
     else:
         print("badluck1")
-#####################################################################################################################
+    #####################################################################################################################
     if FileName != "":
         if chvar2.get() == 1:
-            #create parametrized file request
+            # create parametrized file request
             ind = 0
-            #zapsani requestu
+            # zapsani requestu
 
-            with open(Path('templates/facade_template.xml')) as oldfile, open(Path("out/xml/" + FileName + 'Parametrized.xml'), 'w') as newfile:
+            with open(Path('templates/facade_template.xml')) as oldfile, open(
+                    Path("out/xml/" + FileName + 'Parametrized.xml'), 'w') as newfile:
                 for line in oldfile:
                     if any(s in line for s in str_list):
                         if str(var_list[ind]) != "":
@@ -270,7 +246,7 @@ def printsumstuff(event):
                             ind += 1
                     else:
                         newfile.write(line)
-                #zapsani charakteristik
+                # zapsani charakteristik
                 with open(Path("templates/characteristics_templates.xml"), 'r') as file:
                     characteristics_temp = file.read()
                     # print(characteristics_temp)
@@ -286,14 +262,14 @@ def printsumstuff(event):
                         # print(characteristi_temp)
                         newfile.write(characteristi_temp)
 
-                #zapsani koncovky xml
+                # zapsani koncovky xml
                 with open(Path("templates/end_facade_template.xml"), 'r') as file:
                     end_temp = file.read()
                     newfile.write(end_temp)
         else:
             print("badluck2")
         if chvar1.get() == 1:
-            #.csv file
+            # .csv file
             with open(Path("templates/csv_template.csv"), 'r') as file:
                 csv_temp = file.read()
                 f = open(Path("out/csv/" + FileName + ".csv"), 'w')
@@ -306,7 +282,12 @@ def printsumstuff(event):
                     f.write(',' + str(haha))
                 f.write("\n")
 
-            f.write(str(eTrackingId) + ',' + str(iTrackingId) + ',' + str(sourceApplication) + ',' + str(sourceUser) + ',' + str(tenantId) + ',' + str(timestamp) + ',' + str(orderID) + ',' + str(orderRef) + ',' + str(planID) + ',' + str(planItemID) + ',' + str(processComponentID) + ',' + str(processComponentName) + ',' + str(processComponentVersion) + ',' + str(originator) + ',' + str(priority) + ',' + str(actualProcessStep) + ',' + str(entity) + ',' + str(operation) + ',' + str(command))
+            f.write(str(eTrackingId) + ',' + str(iTrackingId) + ',' + str(sourceApplication) + ',' + str(
+                sourceUser) + ',' + str(tenantId) + ',' + str(timestamp) + ',' + str(orderID) + ',' + str(
+                orderRef) + ',' + str(planID) + ',' + str(planItemID) + ',' + str(processComponentID) + ',' + str(
+                processComponentName) + ',' + str(processComponentVersion) + ',' + str(originator) + ',' + str(
+                priority) + ',' + str(actualProcessStep) + ',' + str(entity) + ',' + str(operation) + ',' + str(
+                command))
             var2 = []
             for i in range(len(characteristicsEntry)):
                 var2.append(lowCharacteristicsFrame.nametowidget("characteristicEntry" + str(i)).get())
@@ -318,16 +299,16 @@ def printsumstuff(event):
         else:
             print("badluck3")
         if chvar2.get() == 1:
-            #output
+            # output
             f = open(Path("out/xml/" + FileName + "Parametrized.xml"), 'r')
             file = f.read()
-            output = myLable3.get("1.0",'end-1c')
+            output = myLable3.get("1.0", 'end-1c')
             if output != "":
                 myLable3.delete('1.0', END)
             myLable3.insert(END, file)
             f.close()
 
-        #delete filename
+        # delete filename
         FileName_Entry.delete(0, 'end')
         FileName_Entry['bg'] = 'WHITE'
     else:
@@ -335,48 +316,49 @@ def printsumstuff(event):
 
 
 ###########################################################
-def addChar(event):
+def addChar(self, charName="", charValue=""):
     global counter
     global characteristicsValueEntry
     global characteristicsNameEntry
     counter += 1
     # print(counter)
-    characteristics.append("characteristic" + str(counter))
+    characteristics.append("characteristic" + str(counter - 1))
     characteristics[-1] = Label(lowCharacteristicsFrame, text=characteristics[-1])
-    characteristics[-1].grid(row=counter, column=0, sticky=E, ipadx=15)
+    characteristics[-1].grid(row=21 + counter, column=0, sticky=E)
 
-    characteristicsNameEntry.append(Entry(lowCharacteristicsFrame, name="characteristicNameEntry" + str(counter)))
-    characteristicsNameEntry[-1].grid(row=counter, column=1, sticky=E)
+    characteristicsNameEntry.append(Entry(lowCharacteristicsFrame, name="characteristicNameEntry" + str(counter - 1)))
+    characteristicsNameEntry[-1].grid(row=21 + counter, column=1, sticky=E)
+    characteristicsEntry.append(Entry(lowCharacteristicsFrame, name="characteristicEntry" + str(counter - 1)))
+    characteristicsEntry[-1].grid(row=21 + counter, column=2, sticky=E)
 
-    characteristicsEntry.append(Entry(lowCharacteristicsFrame, name="characteristicEntry" + str(counter)))
-    characteristicsEntry[-1].grid(row=counter, column=2, sticky=E)
+    characteristicsNameEntry[-1].insert(0, charName)
+    characteristicsEntry[-1].insert(0, charValue)
 
     # print(characteristicsEntry)
     # print(characteristicsNameEntry)
 
 
-
-
-#delete a characteristic
+# delete a characteristic
 def deleteChar():
     global counter
-    #get last added characteristic elements
+    # get last added characteristic elements
     labelToDestroy = characteristics[-1]
     characteristicsEntryToDestroy = characteristicsEntry[-1]
     characteristicsNameEntryToDestroy = characteristicsNameEntry[-1]
 
-    #destroy a characteristic
+    # destroy a characteristic
     labelToDestroy.destroy()
     characteristicsEntryToDestroy.destroy()
     characteristicsNameEntryToDestroy.destroy()
 
-    #unset elements from element list
+    # unset elements from element list
     characteristics.remove(characteristics[-1])
     characteristicsEntry.remove(characteristicsEntry[-1])
     characteristicsNameEntry.remove(characteristicsNameEntry[-1])
     counter -= 1
 
-#preset values
+
+# preset values
 def presetValues():
     eTrack = randint(1000000000, 1001223218)
     planIdRan = randint(100, 999)
@@ -411,7 +393,7 @@ def presetValues():
         # entity_Entry.insert(END, '')
         # operation_Entry.insert(END, '')
         # command_Entry.insert(END, '')
-    #set some default filename
+    # set some default filename
     filename = "Zmen mi jmeno"
     FileName_Entry.insert(END, filename)
     eTrackingId_Entry.insert(END, 'O-' + str(eTrack))
@@ -419,7 +401,7 @@ def presetValues():
     sourceApplication_Entry.insert(END, 'tmcz.telekom.it.architecture.COM:COM')
     sourceUser_Entry.insert(END, 'TEMP_sourceUser')
     tenantId_Entry.insert(END, 'TMCZ')
-    #timestamp_Entry.insert(END, '2020-03-014T10:38:00Z')
+    # timestamp_Entry.insert(END, '2020-03-014T10:38:00Z')
     timestamp_Entry.insert(END, "2020-" + timeStampMonth + "-" + timeStampDay + "T"
                            + timeStampHour + ":" + timeStampMinute + ":" + timeStampSecond + "Z")
     orderID_Entry.insert(END, 'TEMP_interni_FOM_ID')
@@ -436,45 +418,66 @@ def presetValues():
     # operation_Entry.insert(END, '')
     # command_Entry.insert(END, '')
 
+
+def openFile():
+    file = Path(filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")]))
+
+    records = list()
+
+    with open(file) as csvfile:
+        reader = csv.DictReader(csvfile)
+        print(str(reader))
+        for row in reader:
+            records.append(row)
+
+# remove all characteristics fields
+    while (counter > 0):
+        deleteChar()
+# select the first record
+    record = records[0]
+
+    textboxFilename = dataElements["fileName"]["entry"]
+    textboxFilename.delete(0,"end")
+    textboxFilename.insert(0,file.stem)
+
+    for key, value in record.items():
+        if key in dataElements:
+            textbox = dataElements[key]["entry"]
+            textbox.delete(0, "end")
+            textbox.insert(0, value)
+        else:
+            addChar(key, value)
+
+
 ##############
 #####Buttons
 ##############
-#Characteristics part
-# command_Lable = Label(topFrame, text="command: ")
-characteristicsLabel = Label(midButtonFrame, text="Characteristics  ")
-characteristicsLabel.grid(row=0, column=0, pady=15, sticky=E)
-
-#main button
+# main button
 requestButton = Button(bottomFrame, text="Generate request")
 requestButton.grid(row=0, sticky=N)
 requestButton.bind("<Button-1>", printsumstuff)
 
-#labels for file generation
+# labels for file generation
 # Label(bottomFrame, text="csv").grid(row=1, column=0, sticky=S)
-chkbtn1 = Checkbutton(bottomFrame, text="csv", variable=chvar1, onvalue = 1, offvalue = 0)
-chkbtn2 = Checkbutton(bottomFrame, text="xml", variable=chvar2, onvalue = 1, offvalue = 0)
+chkbtn1 = Checkbutton(bottomFrame, text="csv", variable=chvar1, onvalue=1, offvalue=0)
+chkbtn2 = Checkbutton(bottomFrame, text="xml", variable=chvar2, onvalue=1, offvalue=0)
 chkbtn1.grid(row=1, column=0, sticky=W)
 chkbtn2.grid(row=2, column=0, sticky=W)
 
-
-#secondary button
-addCharacteristicButton = Button(midButtonFrame, text="Add a characteristic")
-addCharacteristicButton.grid(row=0, column=1, pady=15)
+# secondary button
+addCharacteristicButton = Button(scrollable_frame, text="Add a characteristic")
+addCharacteristicButton.grid(row=21, column=1, pady=15, sticky=W)
 addCharacteristicButton.bind("<Button-1>", addChar)
 
-#tertiary button
-setValuesButton = Button(midButtonFrame, text="Delete a characteristic", command=deleteChar)
-setValuesButton.grid(row=0, column=2, pady=15)
+# tertiary button
+setValuesButton = Button(scrollable_frame, text="Delete a characteristic", command=deleteChar)
+setValuesButton.grid(row=21, column=1, pady=15, sticky=E)
 
-#quaternary button
+# quaternary button
 setValuesButton = Button(topButtonFrame, text="Generate values", command=presetValues)
 setValuesButton.grid(row=0, column=1, pady=15, sticky=W)
 
-import bin.file_dialog as fd
-import bin.file_dialog as fd
-myObject1 = fd.AnotherFile(topButtonFrame)
-
-# file_dial.grid(row=0, column=2, pady=15, sticky=W)
-
+openFileButton = Button(topButtonFrame, text="Open file", command=openFile)
+openFileButton.grid(row=0, column=2, pady=15, sticky=W)
 
 topFrame.mainloop()
