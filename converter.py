@@ -38,14 +38,26 @@ canvas = Canvas(topFrame)
 scrollbar = ttk.Scrollbar(topFrame, orient="vertical", command=canvas.yview)
 scrollable_frame = ttk.Frame(canvas)
 
-scrollable_frame.bind(
+topButtonFrame = ttk.Frame(canvas)
+topButtonFrame.grid()
+
+midButtonFrame = ttk.Frame(canvas)
+midButtonFrame.grid()
+
+lowCharacteristicsFrame = ttk.Frame(canvas)
+lowCharacteristicsFrame.grid()
+
+lowCharacteristicsFrame.bind(
     "<Configure>",
     lambda e: canvas.configure(
         scrollregion=canvas.bbox("all")
     )
 )
 
-canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+canvas.create_window((0, 70), window=scrollable_frame, anchor="nw")
+canvas.create_window((187, 0), window=topButtonFrame, anchor="nw")
+canvas.create_window((77, 545), window=midButtonFrame, anchor="nw")
+canvas.create_window((50, 600), window=lowCharacteristicsFrame, anchor="nw")
 canvas.configure(yscrollcommand=scrollbar.set)
 
 
@@ -153,11 +165,6 @@ command_Entry.grid(row=20, column=1, sticky=W, ipadx=100)
 myLable3 = Text(rightFrame)
 myLable3.pack(ipadx=250, ipady=250)
 
-#Characteristics part
-# command_Lable = Label(topFrame, text="command: ")
-characteristicsLabel = Label(scrollable_frame, text="Characteristics")
-characteristicsLabel.grid(row=21, column=0, pady=15, sticky=E)
-
 #Request input
 # requestInput = Entry(topFrame)
 # requestInput.grid(row=0, column=1)
@@ -228,8 +235,8 @@ def printsumstuff(event):
                 print(len(characteristicsNameEntry))
                 for i in range(len(characteristicsNameEntry)):
                     print(i)
-                    var.append(scrollable_frame.nametowidget("characteristicNameEntry" + str(i)).get())
-                    val.append(scrollable_frame.nametowidget("characteristicEntry" + str(i)).get())
+                    var.append(lowCharacteristicsFrame.nametowidget("characteristicNameEntry" + str(i)).get())
+                    val.append(lowCharacteristicsFrame.nametowidget("characteristicEntry" + str(i)).get())
                     print(val)
                     haha = str(var[i])
                     ahaha = str(val[i])
@@ -270,7 +277,7 @@ def printsumstuff(event):
                     var = []
                     for i in range(len(characteristicsNameEntry)):
                         # print(i)
-                        var.append(scrollable_frame.nametowidget("characteristicNameEntry" + str(i)).get())
+                        var.append(lowCharacteristicsFrame.nametowidget("characteristicNameEntry" + str(i)).get())
                         # print(var)
                         haha = var[i]
                         # print(haha)
@@ -292,7 +299,7 @@ def printsumstuff(event):
                 f = open(Path("out/csv/" + FileName + ".csv"), 'w')
                 f.write(csv_temp)
                 for i in range(len(characteristicsNameEntry)):
-                    var.append(scrollable_frame.nametowidget("characteristicNameEntry" + str(i)).get())
+                    var.append(lowCharacteristicsFrame.nametowidget("characteristicNameEntry" + str(i)).get())
                     # print(var)
                     haha = var[i]
                     # print(haha)
@@ -302,7 +309,7 @@ def printsumstuff(event):
             f.write(str(eTrackingId) + ',' + str(iTrackingId) + ',' + str(sourceApplication) + ',' + str(sourceUser) + ',' + str(tenantId) + ',' + str(timestamp) + ',' + str(orderID) + ',' + str(orderRef) + ',' + str(planID) + ',' + str(planItemID) + ',' + str(processComponentID) + ',' + str(processComponentName) + ',' + str(processComponentVersion) + ',' + str(originator) + ',' + str(priority) + ',' + str(actualProcessStep) + ',' + str(entity) + ',' + str(operation) + ',' + str(command))
             var2 = []
             for i in range(len(characteristicsEntry)):
-                var2.append(scrollable_frame.nametowidget("characteristicEntry" + str(i)).get())
+                var2.append(lowCharacteristicsFrame.nametowidget("characteristicEntry" + str(i)).get())
                 # print(var2)
                 haha2 = var2[i]
                 # print(haha2)
@@ -335,14 +342,14 @@ def addChar(event):
     counter += 1
     # print(counter)
     characteristics.append("characteristic" + str(counter))
-    characteristics[-1] = Label(scrollable_frame, text=characteristics[-1])
-    characteristics[-1].grid(row=22+counter, column=0, sticky=E)
+    characteristics[-1] = Label(lowCharacteristicsFrame, text=characteristics[-1])
+    characteristics[-1].grid(row=counter, column=0, sticky=E, ipadx=15)
 
-    characteristicsNameEntry.append(Entry(scrollable_frame, name="characteristicNameEntry" + str(counter)))
-    characteristicsNameEntry[-1].grid(row=22+counter, column=1, sticky=E)
+    characteristicsNameEntry.append(Entry(lowCharacteristicsFrame, name="characteristicNameEntry" + str(counter)))
+    characteristicsNameEntry[-1].grid(row=counter, column=1, sticky=E)
 
-    characteristicsEntry.append(Entry(scrollable_frame, name="characteristicEntry" + str(counter)))
-    characteristicsEntry[-1].grid(row=22+counter, column=2, sticky=E)
+    characteristicsEntry.append(Entry(lowCharacteristicsFrame, name="characteristicEntry" + str(counter)))
+    characteristicsEntry[-1].grid(row=counter, column=2, sticky=E)
 
     # print(characteristicsEntry)
     # print(characteristicsNameEntry)
@@ -432,6 +439,11 @@ def presetValues():
 ##############
 #####Buttons
 ##############
+#Characteristics part
+# command_Lable = Label(topFrame, text="command: ")
+characteristicsLabel = Label(midButtonFrame, text="Characteristics  ")
+characteristicsLabel.grid(row=0, column=0, pady=15, sticky=E)
+
 #main button
 requestButton = Button(bottomFrame, text="Generate request")
 requestButton.grid(row=0, sticky=N)
@@ -446,16 +458,23 @@ chkbtn2.grid(row=2, column=0, sticky=W)
 
 
 #secondary button
-addCharacteristicButton = Button(scrollable_frame, text="Add a characteristic")
-addCharacteristicButton.grid(row=21, column=1, pady=15, sticky=W)
+addCharacteristicButton = Button(midButtonFrame, text="Add a characteristic")
+addCharacteristicButton.grid(row=0, column=1, pady=15)
 addCharacteristicButton.bind("<Button-1>", addChar)
 
 #tertiary button
-setValuesButton = Button(scrollable_frame, text="Delete a characteristic", command=deleteChar)
-setValuesButton.grid(row=21, column=1, pady=15, sticky=E)
+setValuesButton = Button(midButtonFrame, text="Delete a characteristic", command=deleteChar)
+setValuesButton.grid(row=0, column=2, pady=15)
 
 #quaternary button
-setValuesButton = Button(scrollable_frame, text="Generate values", command=presetValues)
+setValuesButton = Button(topButtonFrame, text="Generate values", command=presetValues)
 setValuesButton.grid(row=0, column=1, pady=15, sticky=W)
+
+import bin.file_dialog as fd
+import bin.file_dialog as fd
+myObject1 = fd.AnotherFile(topButtonFrame)
+
+# file_dial.grid(row=0, column=2, pady=15, sticky=W)
+
 
 topFrame.mainloop()
