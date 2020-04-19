@@ -29,7 +29,11 @@ global chvar1
 global chvar2
 chvar1 = IntVar()
 chvar2 = IntVar()
-
+# topFrame = Frame(topFrame)
+# topFrame.grid(row=0, column=0)
+# topFrame = Frame(topFrame)
+# topFrame.grid(row=0, column=1)
+# topFrame.pack(fill=X, expand=TRUE)
 topFrame = ttk.Frame(root)
 canvas = Canvas(topFrame)
 scrollbar = ttk.Scrollbar(topFrame, orient="vertical", command=canvas.yview)
@@ -67,6 +71,11 @@ bottomFrame = Frame(root)
 bottomFrame.pack(side=BOTTOM, padx=25, pady=25)
 rightFrame = Frame(root)
 rightFrame.pack(side=RIGHT, anchor=N, padx=25, pady=25)
+
+# scrollbar = ttk.Scrollbar(topFrame, command=topFrame.yview)
+# scrollbar.grid(sticky=E, fill=Y)
+# topFrame.configure(yscrollcommand=scrollbar.set)
+
 
 # Lables
 
@@ -149,6 +158,12 @@ characteristicsLabel.grid(row=21, column=0, pady=15, sticky=E)
 def printsumstuff(event):
     global chvar1
     global chvar2
+
+    # print(chvar1.get())
+    # print(chvar2.get())
+    # var2 = IntVar()
+    # print(var2.state())
+
     global characteristicsValueEntry
     global characteristicsNameEntry
 
@@ -328,6 +343,7 @@ def addChar(self, charName="", charValue=""):
 
     characteristicsNameEntry.append(Entry(lowCharacteristicsFrame, name="characteristicNameEntry" + str(counter - 1)))
     characteristicsNameEntry[-1].grid(row=21 + counter, column=1, sticky=E)
+
     characteristicsEntry.append(Entry(lowCharacteristicsFrame, name="characteristicEntry" + str(counter - 1)))
     characteristicsEntry[-1].grid(row=21 + counter, column=2, sticky=E)
 
@@ -423,10 +439,8 @@ def openFile():
     file = Path(filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")]))
 
     records = list()
-
-    with open(file) as csvfile:
+    with open(file, encoding='utf-8-sig') as csvfile:
         reader = csv.DictReader(csvfile)
-        print(str(reader))
         for row in reader:
             records.append(row)
 
@@ -446,37 +460,42 @@ def openFile():
             textbox.delete(0, "end")
             textbox.insert(0, value)
         else:
-            addChar(key, value)
+            addChar("", key, value)
 
 
 ##############
 #####Buttons
 ##############
-# main button
+#Characteristics part
+# command_Lable = Label(topFrame, text="command: ")
+characteristicsLabel = Label(midButtonFrame, text="Characteristics  ")
+characteristicsLabel.grid(row=0, column=0, pady=15, sticky=E)
+
+#main button
 requestButton = Button(bottomFrame, text="Generate request")
 requestButton.grid(row=0, sticky=N)
 requestButton.bind("<Button-1>", printsumstuff)
 
-# labels for file generation
+#labels for file generation
 # Label(bottomFrame, text="csv").grid(row=1, column=0, sticky=S)
-chkbtn1 = Checkbutton(bottomFrame, text="csv", variable=chvar1, onvalue=1, offvalue=0)
-chkbtn2 = Checkbutton(bottomFrame, text="xml", variable=chvar2, onvalue=1, offvalue=0)
+chkbtn1 = Checkbutton(bottomFrame, text="csv", variable=chvar1, onvalue = 1, offvalue = 0)
+chkbtn2 = Checkbutton(bottomFrame, text="xml", variable=chvar2, onvalue = 1, offvalue = 0)
 chkbtn1.grid(row=1, column=0, sticky=W)
 chkbtn2.grid(row=2, column=0, sticky=W)
 
-# secondary button
-addCharacteristicButton = Button(scrollable_frame, text="Add a characteristic")
-addCharacteristicButton.grid(row=21, column=1, pady=15, sticky=W)
+
+#secondary button
+addCharacteristicButton = Button(midButtonFrame, text="Add a characteristic")
+addCharacteristicButton.grid(row=0, column=1, pady=15)
 addCharacteristicButton.bind("<Button-1>", addChar)
 
-# tertiary button
-setValuesButton = Button(scrollable_frame, text="Delete a characteristic", command=deleteChar)
-setValuesButton.grid(row=21, column=1, pady=15, sticky=E)
+#tertiary button
+setValuesButton = Button(midButtonFrame, text="Delete a characteristic", command=deleteChar)
+setValuesButton.grid(row=0, column=2, pady=15)
 
-# quaternary button
+#quaternary button
 setValuesButton = Button(topButtonFrame, text="Generate values", command=presetValues)
 setValuesButton.grid(row=0, column=1, pady=15, sticky=W)
-
 openFileButton = Button(topButtonFrame, text="Open file", command=openFile)
 openFileButton.grid(row=0, column=2, pady=15, sticky=W)
 
