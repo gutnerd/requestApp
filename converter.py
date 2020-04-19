@@ -169,7 +169,7 @@ def printsumstuff(event):
     # print(chvar2.get())
     # var2 = IntVar()
     # print(var2.state())
-    entries_list, var_list = myElements.get_entries()
+    entries_list, var_list, notgonnause = myElements.get_entries()
 
     global characteristicsValueEntry
     global characteristicsNameEntry
@@ -392,8 +392,9 @@ def presetValues():
     timeStampMinute = "{0:0=2d}".format(randint(0, 59))
     timeStampSecond = "{0:0=2d}".format(randint(0, 59))
 
-    if var_list[1] != "":
+    if entries_list[1].get() != "":
         rangeForLoop = len(entries_list) - 3
+        print(rangeForLoop)
         for r in range(rangeForLoop):
             entries_list[r].delete(0, 'end')
 
@@ -436,8 +437,8 @@ def openFile():
 # select the first record
     record = records[0]
 
-    entries_list[1].delete(0,"end")
-    entries_list[1].insert(0,file.stem)
+    entries_list[0].delete(0,"end")
+    entries_list[0].insert(0,file.stem)
 
     for key, value in record.items():
         if key in dataElements:

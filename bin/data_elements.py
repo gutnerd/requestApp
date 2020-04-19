@@ -3,7 +3,6 @@ from tkinter import *
 
 class data_elements_class:
     def __init__(self, frame):
-        global dataElements
         self.dataElements = dict(fileName={'entry': Entry(frame), 'label': Label(frame, text="Filename: ")},
                             eTrackingId={'entry': Entry(frame),
                                          'label': Label(frame, text="eTrackingId: ")},
