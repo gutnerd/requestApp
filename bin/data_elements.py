@@ -1,6 +1,4 @@
-import tkinter as tk
 from tkinter import *
-from tkinter import filedialog as fd
 
 
 class data_elements_class:
@@ -44,29 +42,42 @@ class data_elements_class:
             self.dataElements[element]["entry"].grid(row=i, column=1, sticky=W, ipadx=100)
             i += 1
 
-            # variables for legacy functions
-            FileName_Entry = self.dataElements["fileName"]["entry"]
-            eTrackingId_Entry = self.dataElements["eTrackingId"]["entry"]
-            iTrackingId_Entry = self.dataElements["iTrackingId"]["entry"]
-            sourceApplication_Entry = self.dataElements["sourceApplication"]["entry"]
-            sourceUser_Entry = self.dataElements["sourceUser"]["entry"]
-            tenantId_Entry = self.dataElements["tenantId"]["entry"]
-            timestamp_Entry = self.dataElements["timestamp"]["entry"]
-            orderID_Entry = self.dataElements["orderID"]["entry"]
-            orderRef_Entry = self.dataElements["orderRef"]["entry"]
-            planID_Entry = self.dataElements["planID"]["entry"]
-            planItemID_Entry = self.dataElements["planItemID"]["entry"]
-            processComponentID_Entry = self.dataElements["processComponentID"]["entry"]
-            processComponentName_Entry = self.dataElements["processComponentName"]["entry"]
-            processComponentVersion_Entry = self.dataElements["processComponentVersion"]["entry"]
-            originator_Entry = self.dataElements["originator"]["entry"]
-            priority_Entry = self.dataElements["priority"]["entry"]
-            actualProcessStep_Entry = self.dataElements["actualProcessStep"]["entry"]
-            entity_Entry = self.dataElements["entity"]["entry"]
-            operation_Entry = self.dataElements["operation"]["entry"]
-            command_Entry = self.dataElements["command"]["entry"]
+    def get_entries(self):
+        # variables for legacy functions
+        FileName_Entry = self.dataElements["fileName"]["entry"]
+        eTrackingId_Entry = self.dataElements["eTrackingId"]["entry"]
+        iTrackingId_Entry = self.dataElements["iTrackingId"]["entry"]
+        sourceApplication_Entry = self.dataElements["sourceApplication"]["entry"]
+        sourceUser_Entry = self.dataElements["sourceUser"]["entry"]
+        tenantId_Entry = self.dataElements["tenantId"]["entry"]
+        timestamp_Entry = self.dataElements["timestamp"]["entry"]
+        orderID_Entry = self.dataElements["orderID"]["entry"]
+        orderRef_Entry = self.dataElements["orderRef"]["entry"]
+        planID_Entry = self.dataElements["planID"]["entry"]
+        planItemID_Entry = self.dataElements["planItemID"]["entry"]
+        processComponentID_Entry = self.dataElements["processComponentID"]["entry"]
+        processComponentName_Entry = self.dataElements["processComponentName"]["entry"]
+        processComponentVersion_Entry = self.dataElements["processComponentVersion"]["entry"]
+        originator_Entry = self.dataElements["originator"]["entry"]
+        priority_Entry = self.dataElements["priority"]["entry"]
+        actualProcessStep_Entry = self.dataElements["actualProcessStep"]["entry"]
+        entity_Entry = self.dataElements["entity"]["entry"]
+        operation_Entry = self.dataElements["operation"]["entry"]
+        command_Entry = self.dataElements["command"]["entry"]
 
+        self.entries_list = [FileName_Entry, eTrackingId_Entry, iTrackingId_Entry, sourceApplication_Entry, sourceUser_Entry, tenantId_Entry, timestamp_Entry,
+                             orderID_Entry, orderRef_Entry, planID_Entry, planItemID_Entry, processComponentID_Entry, processComponentName_Entry,
+                             processComponentVersion_Entry, originator_Entry, priority_Entry, actualProcessStep_Entry, entity_Entry, operation_Entry, command_Entry]
 
+        self.var_list = [self.dataElements["eTrackingId"]["entry"].get(), self.dataElements["iTrackingId"]["entry"].get(), self.dataElements["sourceApplication"]["entry"].get(),
+                    self.dataElements["sourceUser"]["entry"].get(), self.dataElements["tenantId"]["entry"].get(), self.dataElements["timestamp"]["entry"].get(),
+                    self.dataElements["orderID"]["entry"].get(), self.dataElements["orderRef"]["entry"].get(), self.dataElements["planID"]["entry"].get(),
+                    self.dataElements["planItemID"]["entry"].get(), self.dataElements["processComponentID"]["entry"].get(),
+                    self.dataElements["processComponentName"]["entry"].get(),
+                    self.dataElements["processComponentVersion"]["entry"].get(), self.dataElements["originator"]["entry"].get(), self.dataElements["priority"]["entry"].get(),
+                    self.dataElements["actualProcessStep"]["entry"].get(), self.dataElements["entity"]["entry"].get(),
+                    self.dataElements["operation"]["entry"].get(), self.dataElements["command"]["entry"].get()]
+        return self.entries_list, self.var_list, self.dataElements
 
 
 

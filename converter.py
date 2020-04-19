@@ -6,6 +6,7 @@ from tkinter import filedialog
 from xml.etree import ElementTree as ET
 from pathlib import Path
 import csv
+from bin import data_elements as de
 
 # Okno
 root = Tk()
@@ -76,69 +77,75 @@ rightFrame.pack(side=RIGHT, anchor=N, padx=25, pady=25)
 # scrollbar.grid(sticky=E, fill=Y)
 # topFrame.configure(yscrollcommand=scrollbar.set)
 
+#################################################################################################################################################
+# # Lables
+# dataElements = dict(fileName={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="Filename: ")},
+#                     eTrackingId={'entry': Entry(scrollable_frame),
+#                                  'label': Label(scrollable_frame, text="eTrackingId: ")},
+#                     iTrackingId={'entry': Entry(scrollable_frame),
+#                                  'label': Label(scrollable_frame, text="iTrackingId: ")},
+#                     sourceApplication={'entry': Entry(scrollable_frame),
+#                                        'label': Label(scrollable_frame, text="sourceApplication: ")},
+#                     sourceUser={'entry': Entry(scrollable_frame),
+#                                 'label': Label(scrollable_frame, text="sourceUser: ")},
+#                     tenantId={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="tenantId: ")},
+#                     timestamp={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="timestamp: ")},
+#                     orderID={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="orderID: ")},
+#                     orderRef={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="orderRef: ")},
+#                     planID={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="planID: ")},
+#                     planItemID={'entry': Entry(scrollable_frame),
+#                                 'label': Label(scrollable_frame, text="planItemID: ")},
+#                     processComponentID={'entry': Entry(scrollable_frame),
+#                                         'label': Label(scrollable_frame, text="processComponentID: ")},
+#                     processComponentName={'entry': Entry(scrollable_frame),
+#                                           'label': Label(scrollable_frame, text="processComponentName: ")},
+#                     processComponentVersion={'entry': Entry(scrollable_frame),
+#                                              'label': Label(scrollable_frame, text="processComponentVersion: ")},
+#                     originator={'entry': Entry(scrollable_frame),
+#                                 'label': Label(scrollable_frame, text="originator: ")},
+#                     priority={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="priority: ")},
+#                     actualProcessStep={'entry': Entry(scrollable_frame),
+#                                        'label': Label(scrollable_frame, text="actualProcessStep: ")},
+#                     entity={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="entity: ")},
+#                     operation={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="operation: ")},
+#                     command={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="command: ")})
+#
+# # draw data element labels and textboxes
+# i = 1
+# for element in dataElements:
+#     dataElements[element]["label"].grid(row=i, sticky=E)
+#     dataElements[element]["entry"].grid(row=i, column=1, sticky=W, ipadx=100)
+#     i += 1
+#
+# # variables for legacy functions
+# FileName_Entry = dataElements["fileName"]["entry"]
+# eTrackingId_Entry = dataElements["eTrackingId"]["entry"]
+# iTrackingId_Entry = dataElements["iTrackingId"]["entry"]
+# sourceApplication_Entry = dataElements["sourceApplication"]["entry"]
+# sourceUser_Entry = dataElements["sourceUser"]["entry"]
+# tenantId_Entry = dataElements["tenantId"]["entry"]
+# timestamp_Entry = dataElements["timestamp"]["entry"]
+# orderID_Entry = dataElements["orderID"]["entry"]
+# orderRef_Entry = dataElements["orderRef"]["entry"]
+# planID_Entry = dataElements["planID"]["entry"]
+# planItemID_Entry = dataElements["planItemID"]["entry"]
+# processComponentID_Entry = dataElements["processComponentID"]["entry"]
+# processComponentName_Entry = dataElements["processComponentName"]["entry"]
+# processComponentVersion_Entry = dataElements["processComponentVersion"]["entry"]
+# originator_Entry = dataElements["originator"]["entry"]
+# priority_Entry = dataElements["priority"]["entry"]
+# actualProcessStep_Entry = dataElements["actualProcessStep"]["entry"]
+# entity_Entry = dataElements["entity"]["entry"]
+# operation_Entry = dataElements["operation"]["entry"]
+# command_Entry = dataElements["command"]["entry"]
+#############################################################################################################################################################
 
-# Lables
 
-
-dataElements = dict(fileName={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="Filename: ")},
-                    eTrackingId={'entry': Entry(scrollable_frame),
-                                 'label': Label(scrollable_frame, text="eTrackingId: ")},
-                    iTrackingId={'entry': Entry(scrollable_frame),
-                                 'label': Label(scrollable_frame, text="iTrackingId: ")},
-                    sourceApplication={'entry': Entry(scrollable_frame),
-                                       'label': Label(scrollable_frame, text="sourceApplication: ")},
-                    sourceUser={'entry': Entry(scrollable_frame),
-                                'label': Label(scrollable_frame, text="sourceUser: ")},
-                    tenantId={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="tenantId: ")},
-                    timestamp={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="timestamp: ")},
-                    orderID={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="orderID: ")},
-                    orderRef={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="orderRef: ")},
-                    planID={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="planID: ")},
-                    planItemID={'entry': Entry(scrollable_frame),
-                                'label': Label(scrollable_frame, text="planItemID: ")},
-                    processComponentID={'entry': Entry(scrollable_frame),
-                                        'label': Label(scrollable_frame, text="processComponentID: ")},
-                    processComponentName={'entry': Entry(scrollable_frame),
-                                          'label': Label(scrollable_frame, text="processComponentName: ")},
-                    processComponentVersion={'entry': Entry(scrollable_frame),
-                                             'label': Label(scrollable_frame, text="processComponentVersion: ")},
-                    originator={'entry': Entry(scrollable_frame),
-                                'label': Label(scrollable_frame, text="originator: ")},
-                    priority={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="priority: ")},
-                    actualProcessStep={'entry': Entry(scrollable_frame),
-                                       'label': Label(scrollable_frame, text="actualProcessStep: ")},
-                    entity={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="entity: ")},
-                    operation={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="operation: ")},
-                    command={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="command: ")})
-
-# draw data element labels and textboxes
-i = 1
-for element in dataElements:
-    dataElements[element]["label"].grid(row=i, sticky=E)
-    dataElements[element]["entry"].grid(row=i, column=1, sticky=W, ipadx=100)
-    i += 1
-
-    # variables for legacy functions
-    FileName_Entry = dataElements["fileName"]["entry"]
-    eTrackingId_Entry = dataElements["eTrackingId"]["entry"]
-    iTrackingId_Entry = dataElements["iTrackingId"]["entry"]
-    sourceApplication_Entry = dataElements["sourceApplication"]["entry"]
-    sourceUser_Entry = dataElements["sourceUser"]["entry"]
-    tenantId_Entry = dataElements["tenantId"]["entry"]
-    timestamp_Entry = dataElements["timestamp"]["entry"]
-    orderID_Entry = dataElements["orderID"]["entry"]
-    orderRef_Entry = dataElements["orderRef"]["entry"]
-    planID_Entry = dataElements["planID"]["entry"]
-    planItemID_Entry = dataElements["planItemID"]["entry"]
-    processComponentID_Entry = dataElements["processComponentID"]["entry"]
-    processComponentName_Entry = dataElements["processComponentName"]["entry"]
-    processComponentVersion_Entry = dataElements["processComponentVersion"]["entry"]
-    originator_Entry = dataElements["originator"]["entry"]
-    priority_Entry = dataElements["priority"]["entry"]
-    actualProcessStep_Entry = dataElements["actualProcessStep"]["entry"]
-    entity_Entry = dataElements["entity"]["entry"]
-    operation_Entry = dataElements["operation"]["entry"]
-    command_Entry = dataElements["command"]["entry"]
+global var_list
+myElements = de.data_elements_class(scrollable_frame)
+entries_list, var_list, dataElements = myElements.get_entries()
+print(entries_list)
+print(var_list)
 
 myLable3 = Text(rightFrame)
 myLable3.pack(ipadx=250, ipady=250)
@@ -158,40 +165,41 @@ characteristicsLabel.grid(row=21, column=0, pady=15, sticky=E)
 def printsumstuff(event):
     global chvar1
     global chvar2
-
     # print(chvar1.get())
     # print(chvar2.get())
     # var2 = IntVar()
     # print(var2.state())
+    entries_list, var_list = myElements.get_entries()
 
     global characteristicsValueEntry
     global characteristicsNameEntry
 
-    FileName = FileName_Entry.get()
-    eTrackingId = eTrackingId_Entry.get()
-    iTrackingId = iTrackingId_Entry.get()
-    sourceApplication = sourceApplication_Entry.get()
-    sourceUser = sourceUser_Entry.get()
-    tenantId = tenantId_Entry.get()
-    timestamp = timestamp_Entry.get()
-    orderID = orderID_Entry.get()
-    orderRef = orderRef_Entry.get()
-    planID = planID_Entry.get()
-    planItemID = planItemID_Entry.get()
-    processComponentID = processComponentID_Entry.get()
-    processComponentName = processComponentName_Entry.get()
-    processComponentVersion = processComponentVersion_Entry.get()
-    originator = originator_Entry.get()
-    priority = priority_Entry.get()
-    actualProcessStep = actualProcessStep_Entry.get()
-    entity = entity_Entry.get()
-    operation = operation_Entry.get()
-    command = command_Entry.get()
+    FileName = entries_list[0].get()
+    eTrackingId = var_list[0]
+    iTrackingId = var_list[1]
+    sourceApplication = var_list[2]
+    sourceUser = var_list[3]
+    tenantId = var_list[4]
+    timestamp = var_list[5]
+    orderID = var_list[6]
+    orderRef = var_list[7]
+    planID = var_list[8]
+    planItemID = var_list[9]
+    processComponentID = var_list[10]
+    processComponentName = var_list[11]
+    processComponentVersion = var_list[12]
+    originator = var_list[13]
+    priority = var_list[14]
+    actualProcessStep = var_list[15]
+    entity = var_list[16]
+    operation = var_list[17]
+    command = var_list[18]
 
     # list with variables to write to file
-    var_list = [eTrackingId, iTrackingId, sourceApplication, sourceUser, tenantId, timestamp, orderID, orderRef, planID,
-                planItemID, processComponentID, processComponentName, processComponentVersion, originator, priority,
-                actualProcessStep, entity, operation, command]
+    # var_list = [eTrackingId, iTrackingId, sourceApplication, sourceUser, tenantId, timestamp, orderID, orderRef, planID,
+    #             planItemID, processComponentID, processComponentName, processComponentVersion, originator, priority,
+    #             actualProcessStep, entity, operation, command]
+    print(var_list)
     str_list = ['${eTrackingId}', '${iTrackingId}', '${sourceApplication}', '${sourceUser}', '${tenantId}',
                 '${timestamp}', '${orderID}', '${orderRef}', '${planID}', '${planItemID}', '${processComponentID}',
                 '${processComponentName}', '${processComponentVersion}', '${originator}', '${priority}',
@@ -324,10 +332,10 @@ def printsumstuff(event):
             f.close()
 
         # delete filename
-        FileName_Entry.delete(0, 'end')
-        FileName_Entry['bg'] = 'WHITE'
+        entries_list[0].delete(0, 'end')
+        entries_list[0]['bg'] = 'WHITE'
     else:
-        FileName_Entry['bg'] = 'RED'
+        entries_list[0]['bg'] = 'RED'
 
 
 ###########################################################
@@ -349,10 +357,6 @@ def addChar(self, charName="", charValue=""):
 
     characteristicsNameEntry[-1].insert(0, charName)
     characteristicsEntry[-1].insert(0, charValue)
-
-    # print(characteristicsEntry)
-    # print(characteristicsNameEntry)
-
 
 # delete a characteristic
 def deleteChar():
@@ -388,48 +392,29 @@ def presetValues():
     timeStampMinute = "{0:0=2d}".format(randint(0, 59))
     timeStampSecond = "{0:0=2d}".format(randint(0, 59))
 
-    if eTrackingId_Entry.get() != "":
-        FileName_Entry.delete(0, 'end')
-        eTrackingId_Entry.delete(0, 'end')
-        iTrackingId_Entry.delete(0, 'end')
-        sourceApplication_Entry.delete(0, 'end')
-        sourceUser_Entry.delete(0, 'end')
-        tenantId_Entry.delete(0, 'end')
-        timestamp_Entry.delete(0, 'end')
-        orderID_Entry.delete(0, 'end')
-        orderRef_Entry.delete(0, 'end')
-        planID_Entry.delete(0, 'end')
-        planItemID_Entry.delete(0, 'end')
-        processComponentID_Entry.delete(0, 'end')
-        processComponentName_Entry.delete(0, 'end')
-        processComponentVersion_Entry.delete(0, 'end')
-        originator_Entry.delete(0, 'end')
-        priority_Entry.delete(0, 'end')
-        actualProcessStep_Entry.delete(0, 'end')
-        # entity_Entry.insert(END, '')
-        # operation_Entry.insert(END, '')
-        # command_Entry.insert(END, '')
-    # set some default filename
-    filename = "Zmen mi jmeno"
-    FileName_Entry.insert(END, filename)
-    eTrackingId_Entry.insert(END, 'O-' + str(eTrack))
-    iTrackingId_Entry.insert(END, "TMCZ-" + str(planIdRan) + "-" + str(planItemIdRan))
-    sourceApplication_Entry.insert(END, 'tmcz.telekom.it.architecture.COM:COM')
-    sourceUser_Entry.insert(END, 'TEMP_sourceUser')
-    tenantId_Entry.insert(END, 'TMCZ')
-    # timestamp_Entry.insert(END, '2020-03-014T10:38:00Z')
-    timestamp_Entry.insert(END, "2020-" + timeStampMonth + "-" + timeStampDay + "T"
+    if var_list[1] != "":
+        rangeForLoop = len(entries_list) - 3
+        for r in range(rangeForLoop):
+            entries_list[r].delete(0, 'end')
+
+    # FileName_Entry.insert(END, filename)
+    entries_list[1].insert(END, 'O-' + str(eTrack))
+    entries_list[2].insert(END, "TMCZ-" + str(planIdRan) + "-" + str(planItemIdRan))
+    entries_list[3].insert(END, 'tmcz.telekom.it.architecture.COM:COM')
+    entries_list[4].insert(END, 'TEMP_sourceUser')
+    entries_list[5].insert(END, 'TMCZ')
+    entries_list[6].insert(END, "2020-" + timeStampMonth + "-" + timeStampDay + "T"
                            + timeStampHour + ":" + timeStampMinute + ":" + timeStampSecond + "Z")
-    orderID_Entry.insert(END, 'TEMP_interni_FOM_ID')
-    orderRef_Entry.insert(END, 'O-' + str(eTrack))
-    planID_Entry.insert(END, str(planIdRan))
-    planItemID_Entry.insert(END, str(planItemIdRan))
-    processComponentID_Entry.insert(END, str(compID))
-    processComponentName_Entry.insert(END, 'TEMP_processComponentName')
-    processComponentVersion_Entry.insert(END, '1')
-    originator_Entry.insert(END, 'node1')
-    priority_Entry.insert(END, '4')
-    actualProcessStep_Entry.insert(END, 'TEMP_actualProcessStep')
+    entries_list[7].insert(END, 'TEMP_interni_FOM_ID')
+    entries_list[8].insert(END, 'O-' + str(eTrack))
+    entries_list[9].insert(END, str(planIdRan))
+    entries_list[10].insert(END, str(planItemIdRan))
+    entries_list[11].insert(END, str(compID))
+    entries_list[12].insert(END, 'TEMP_processComponentName')
+    entries_list[13].insert(END, '1')
+    entries_list[14].insert(END, 'node1')
+    entries_list[15].insert(END, '4')
+    entries_list[16].insert(END, 'TEMP_actualProcessStep')
     # entity_Entry.insert(END, '')
     # operation_Entry.insert(END, '')
     # command_Entry.insert(END, '')
@@ -443,6 +428,7 @@ def openFile():
         reader = csv.DictReader(csvfile)
         for row in reader:
             records.append(row)
+            print(str(row))
 
 # remove all characteristics fields
     while (counter > 0):
@@ -450,9 +436,8 @@ def openFile():
 # select the first record
     record = records[0]
 
-    textboxFilename = dataElements["fileName"]["entry"]
-    textboxFilename.delete(0,"end")
-    textboxFilename.insert(0,file.stem)
+    entries_list[1].delete(0,"end")
+    entries_list[1].insert(0,file.stem)
 
     for key, value in record.items():
         if key in dataElements:
