@@ -430,8 +430,7 @@ def openFile():
     file = Path(filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")]))
 
     records = list()
-
-    with open(file) as csvfile:
+    with open(file, encoding='utf-8-sig') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             records.append(row)
