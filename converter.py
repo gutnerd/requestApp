@@ -58,7 +58,7 @@ lowCharacteristicsFrame.bind(
 canvas.create_window((0, 70), window=scrollable_frame, anchor="nw")
 canvas.create_window((187, 0), window=topButtonFrame, anchor="nw")
 canvas.create_window((77, 545), window=midButtonFrame, anchor="nw")
-canvas.create_window((50, 600), window=lowCharacteristicsFrame, anchor="nw")
+canvas.create_window((77, 600), window=lowCharacteristicsFrame, anchor="nw")
 canvas.configure(yscrollcommand=scrollbar.set)
 
 
