@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-from random import randint
+from random import randint, random
+import random
+import string
 from tkinter import *  # pip install
 from tkinter import ttk
 from tkinter import filedialog
@@ -377,13 +379,22 @@ def deleteChar():
     characteristicsNameEntry.remove(characteristicsNameEntry[-1])
     counter -= 1
 
+def getRandomString (stringLength):
+    lettersAndDigits = string.ascii_lowercase + string.digits
+    return ''.join((random.choice(lettersAndDigits) for i in range(stringLength)))
 
 # preset values
 def presetValues():
-    eTrack = randint(1000000000, 1001223218)
+    eTrack = "S-5-2" + str(getRandomString(5)) + "-" + str(getRandomString(8)) + "-fw-" + str(randint(00000, 999999))
+    #S-5-2bsiwgy-pita20zi-fw-O23218
+    #S-5-2d9cckg-piuyux3s-fw-O59351
+
     planIdRan = randint(100, 999)
     planItemIdRan = randint(10, 99)
     compID = randint(100, 999)
+    priority = random.choice("24567")
+
+
 
     # "{0:0=2d}".format(a)
     timeStampMonth = "{0:0=2d}".format(randint(1, 12))
@@ -399,22 +410,22 @@ def presetValues():
             entries_list[r].delete(0, 'end')
 
     # FileName_Entry.insert(END, filename)
-    entries_list[1].insert(END, 'O-' + str(eTrack))
+    entries_list[1].insert(END, eTrack)
     entries_list[2].insert(END, "TMCZ-" + str(planIdRan) + "-" + str(planItemIdRan))
-    entries_list[3].insert(END, 'tmcz.telekom.it.architecture.COM:COM')
-    entries_list[4].insert(END, 'TEMP_sourceUser')
+    entries_list[3].insert(END, 'SOFacadeTMCZ')
+    entries_list[4].insert(END, 'sndr:tmcz.telekom.it.architecture.COM:COM')
     entries_list[5].insert(END, 'TMCZ')
     entries_list[6].insert(END, "2020-" + timeStampMonth + "-" + timeStampDay + "T"
                            + timeStampHour + ":" + timeStampMinute + ":" + timeStampSecond + "Z")
     entries_list[7].insert(END, 'TEMP_interni_FOM_ID')
-    entries_list[8].insert(END, 'O-' + str(eTrack))
+    entries_list[8].insert(END, eTrack)
     entries_list[9].insert(END, str(planIdRan))
     entries_list[10].insert(END, str(planItemIdRan))
     entries_list[11].insert(END, str(compID))
     entries_list[12].insert(END, 'TEMP_processComponentName')
     entries_list[13].insert(END, '1')
     entries_list[14].insert(END, 'node1')
-    entries_list[15].insert(END, '4')
+    entries_list[15].insert(END, priority)
     entries_list[16].insert(END, 'TEMP_actualProcessStep')
     # entity_Entry.insert(END, '')
     # operation_Entry.insert(END, '')
