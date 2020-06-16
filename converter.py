@@ -447,6 +447,14 @@ def openFile():
 # select the first record
     record = records[0]
 
+
+    if entries_list[1].get() != "":
+        rangeForLoop = len(entries_list)
+        for r in range(rangeForLoop):
+            entries_list[r].delete(0, 'end')
+
+
+
     entries_list[0].delete(0,"end")
     entries_list[0].insert(0,file.stem)
 
