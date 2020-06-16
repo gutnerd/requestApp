@@ -404,12 +404,11 @@ def presetValues():
     timeStampSecond = "{0:0=2d}".format(randint(0, 59))
 
     if entries_list[1].get() != "":
-        rangeForLoop = len(entries_list) - 3
+        rangeForLoop = len(entries_list) - 4
         print(rangeForLoop)
         for r in range(rangeForLoop):
-            entries_list[r].delete(0, 'end')
+            entries_list[r+1].delete(0, 'end')
 
-    # FileName_Entry.insert(END, filename)
     entries_list[1].insert(END, eTrack)
     entries_list[2].insert(END, "TMCZ-" + str(planIdRan) + "-" + str(planItemIdRan))
     entries_list[3].insert(END, 'SOFacadeTMCZ')
