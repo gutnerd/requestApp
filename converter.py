@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import copy
 from random import randint, random
 import random
 import string
@@ -16,6 +17,20 @@ root.geometry("900x700")
 root.title("Facade request generator")
 
 # setup
+
+global records
+records = list()
+
+global recordLabelString
+recordLabelString = StringVar()
+recordLabelString.set("1/1")
+
+global selectedRecordNumber
+selectedRecordNumber = 0
+
+global totalRecordsCount
+totalRecordsCount = 1
+
 global counter
 counter = 0
 
@@ -59,91 +74,22 @@ lowCharacteristicsFrame.bind(
 )
 
 canvas.create_window((0, 70), window=scrollable_frame, anchor="nw")
-canvas.create_window((187, 0), window=topButtonFrame, anchor="nw")
+canvas.create_window((140, 0), window=topButtonFrame, anchor="nw")
 canvas.create_window((77, 545), window=midButtonFrame, anchor="nw")
 canvas.create_window((77, 600), window=lowCharacteristicsFrame, anchor="nw")
 canvas.configure(yscrollcommand=scrollbar.set)
 
-
 topFrame.pack(side=LEFT, anchor=N, padx=25, pady=25)
-canvas.pack(side=LEFT, fill="both", expand=TRUE, ipady=500, ipadx=250)
+canvas.pack(side=LEFT, fill="both", expand=TRUE, ipady=500, ipadx=100)
 scrollbar.pack(side=RIGHT, fill=Y)
-
 
 bottomFrame = Frame(root)
 bottomFrame.pack(side=BOTTOM, padx=25, pady=25)
 rightFrame = Frame(root)
 rightFrame.pack(side=RIGHT, anchor=N, padx=25, pady=25)
 
-# scrollbar = ttk.Scrollbar(topFrame, command=topFrame.yview)
-# scrollbar.grid(sticky=E, fill=Y)
-# topFrame.configure(yscrollcommand=scrollbar.set)
-
-#################################################################################################################################################
-# # Lables
-# dataElements = dict(fileName={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="Filename: ")},
-#                     eTrackingId={'entry': Entry(scrollable_frame),
-#                                  'label': Label(scrollable_frame, text="eTrackingId: ")},
-#                     iTrackingId={'entry': Entry(scrollable_frame),
-#                                  'label': Label(scrollable_frame, text="iTrackingId: ")},
-#                     sourceApplication={'entry': Entry(scrollable_frame),
-#                                        'label': Label(scrollable_frame, text="sourceApplication: ")},
-#                     sourceUser={'entry': Entry(scrollable_frame),
-#                                 'label': Label(scrollable_frame, text="sourceUser: ")},
-#                     tenantId={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="tenantId: ")},
-#                     timestamp={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="timestamp: ")},
-#                     orderID={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="orderID: ")},
-#                     orderRef={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="orderRef: ")},
-#                     planID={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="planID: ")},
-#                     planItemID={'entry': Entry(scrollable_frame),
-#                                 'label': Label(scrollable_frame, text="planItemID: ")},
-#                     processComponentID={'entry': Entry(scrollable_frame),
-#                                         'label': Label(scrollable_frame, text="processComponentID: ")},
-#                     processComponentName={'entry': Entry(scrollable_frame),
-#                                           'label': Label(scrollable_frame, text="processComponentName: ")},
-#                     processComponentVersion={'entry': Entry(scrollable_frame),
-#                                              'label': Label(scrollable_frame, text="processComponentVersion: ")},
-#                     originator={'entry': Entry(scrollable_frame),
-#                                 'label': Label(scrollable_frame, text="originator: ")},
-#                     priority={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="priority: ")},
-#                     actualProcessStep={'entry': Entry(scrollable_frame),
-#                                        'label': Label(scrollable_frame, text="actualProcessStep: ")},
-#                     entity={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="entity: ")},
-#                     operation={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="operation: ")},
-#                     command={'entry': Entry(scrollable_frame), 'label': Label(scrollable_frame, text="command: ")})
-#
-# # draw data element labels and textboxes
-# i = 1
-# for element in dataElements:
-#     dataElements[element]["label"].grid(row=i, sticky=E)
-#     dataElements[element]["entry"].grid(row=i, column=1, sticky=W, ipadx=100)
-#     i += 1
-#
-# # variables for legacy functions
-# FileName_Entry = dataElements["fileName"]["entry"]
-# eTrackingId_Entry = dataElements["eTrackingId"]["entry"]
-# iTrackingId_Entry = dataElements["iTrackingId"]["entry"]
-# sourceApplication_Entry = dataElements["sourceApplication"]["entry"]
-# sourceUser_Entry = dataElements["sourceUser"]["entry"]
-# tenantId_Entry = dataElements["tenantId"]["entry"]
-# timestamp_Entry = dataElements["timestamp"]["entry"]
-# orderID_Entry = dataElements["orderID"]["entry"]
-# orderRef_Entry = dataElements["orderRef"]["entry"]
-# planID_Entry = dataElements["planID"]["entry"]
-# planItemID_Entry = dataElements["planItemID"]["entry"]
-# processComponentID_Entry = dataElements["processComponentID"]["entry"]
-# processComponentName_Entry = dataElements["processComponentName"]["entry"]
-# processComponentVersion_Entry = dataElements["processComponentVersion"]["entry"]
-# originator_Entry = dataElements["originator"]["entry"]
-# priority_Entry = dataElements["priority"]["entry"]
-# actualProcessStep_Entry = dataElements["actualProcessStep"]["entry"]
-# entity_Entry = dataElements["entity"]["entry"]
-# operation_Entry = dataElements["operation"]["entry"]
-# command_Entry = dataElements["command"]["entry"]
-#############################################################################################################################################################
-
-
 global var_list
+global myElements
 myElements = de.data_elements_class(scrollable_frame)
 entries_list, var_list, dataElements = myElements.get_entries()
 print(entries_list)
@@ -175,6 +121,7 @@ def printsumstuff(event):
 
     global characteristicsValueEntry
     global characteristicsNameEntry
+    saveCurrentRecord()
 
     FileName = entries_list[0].get()
     eTrackingId = var_list[0]
@@ -293,36 +240,49 @@ def printsumstuff(event):
                     newfile.write(end_temp)
         else:
             print("badluck2")
+        #csv file
         if chvar1.get() == 1:
-            # .csv file
-            with open(Path("templates/csv_template.csv"), 'r') as file:
-                csv_temp = file.read()
-                f = open(Path("out/csv/" + FileName + ".csv"), 'w')
-                f.write(csv_temp)
-                for i in range(len(characteristicsNameEntry)):
-                    var.append(lowCharacteristicsFrame.nametowidget("characteristicNameEntry" + str(i)).get())
-                    # print(var)
-                    haha = var[i]
-                    # print(haha)
-                    f.write(',' + str(haha))
-                f.write("\n")
 
-            f.write(str(eTrackingId) + ',' + str(iTrackingId) + ',' + str(sourceApplication) + ',' + str(
-                sourceUser) + ',' + str(tenantId) + ',' + str(timestamp) + ',' + str(orderID) + ',' + str(
-                orderRef) + ',' + str(planID) + ',' + str(planItemID) + ',' + str(processComponentID) + ',' + str(
-                processComponentName) + ',' + str(processComponentVersion) + ',' + str(originator) + ',' + str(
-                priority) + ',' + str(actualProcessStep) + ',' + str(entity) + ',' + str(operation) + ',' + str(
-                command))
-            var2 = []
-            for i in range(len(characteristicsEntry)):
-                var2.append(lowCharacteristicsFrame.nametowidget("characteristicEntry" + str(i)).get())
-                # print(var2)
-                haha2 = var2[i]
-                # print(haha2)
-                f.write(',' + str(haha2))
-            f.close()
-        else:
-            print("badluck3")
+            csvcolumns = list(records[0])
+            filepath = Path("out/csv/" + FileName + ".csv")
+            with open(filepath, 'w') as csvfile:
+                writer = csv.DictWriter(csvfile, fieldnames=csvcolumns, lineterminator='\n')
+                writer.writeheader()
+                writer.writerows(records)
+
+
+
+
+
+        #     # .csv file
+        #     with open(Path("templates/csv_template.csv"), 'r') as file:
+        #         csv_temp = file.read()
+        #         f = open(Path("out/csv/" + FileName + ".csv"), 'w')
+        #         f.write(csv_temp)
+        #         for i in range(len(characteristicsNameEntry)):
+        #             var.append(lowCharacteristicsFrame.nametowidget("characteristicNameEntry" + str(i)).get())
+        #             # print(var)
+        #             haha = var[i]
+        #             # print(haha)
+        #             f.write(',' + str(haha))
+        #         f.write("\n")
+        #
+        #     f.write(str(eTrackingId) + ',' + str(iTrackingId) + ',' + str(sourceApplication) + ',' + str(
+        #         sourceUser) + ',' + str(tenantId) + ',' + str(timestamp) + ',' + str(orderID) + ',' + str(
+        #         orderRef) + ',' + str(planID) + ',' + str(planItemID) + ',' + str(processComponentID) + ',' + str(
+        #         processComponentName) + ',' + str(processComponentVersion) + ',' + str(originator) + ',' + str(
+        #         priority) + ',' + str(actualProcessStep) + ',' + str(entity) + ',' + str(operation) + ',' + str(
+        #         command))
+        #     var2 = []
+        #     for i in range(len(characteristicsEntry)):
+        #         var2.append(lowCharacteristicsFrame.nametowidget("characteristicEntry" + str(i)).get())
+        #         # print(var2)
+        #         haha2 = var2[i]
+        #         # print(haha2)
+        #         f.write(',' + str(haha2))
+        #     f.close()
+        # else:
+        #     print("badluck3")
         if chvar2.get() == 1:
             # output
             f = open(Path("out/xml/" + FileName + "Parametrized.xml"), 'r')
@@ -360,6 +320,7 @@ def addChar(self, charName="", charValue=""):
     characteristicsNameEntry[-1].insert(0, charName)
     characteristicsEntry[-1].insert(0, charValue)
 
+
 # delete a characteristic
 def deleteChar():
     global counter
@@ -379,22 +340,22 @@ def deleteChar():
     characteristicsNameEntry.remove(characteristicsNameEntry[-1])
     counter -= 1
 
-def getRandomString (stringLength):
+
+def getRandomString(stringLength):
     lettersAndDigits = string.ascii_lowercase + string.digits
     return ''.join((random.choice(lettersAndDigits) for i in range(stringLength)))
+
 
 # preset values
 def presetValues():
     eTrack = "S-5-2" + str(getRandomString(5)) + "-" + str(getRandomString(8)) + "-fw-" + str(randint(00000, 999999))
-    #S-5-2bsiwgy-pita20zi-fw-O23218
-    #S-5-2d9cckg-piuyux3s-fw-O59351
+    # S-5-2bsiwgy-pita20zi-fw-O23218
+    # S-5-2d9cckg-piuyux3s-fw-O59351
 
     planIdRan = randint(100, 999)
     planItemIdRan = randint(10, 99)
     compID = randint(100, 999)
     priority = random.choice("24567")
-
-
 
     # "{0:0=2d}".format(a)
     timeStampMonth = "{0:0=2d}".format(randint(1, 12))
@@ -405,9 +366,8 @@ def presetValues():
 
     if entries_list[1].get() != "":
         rangeForLoop = len(entries_list) - 4
-        print(rangeForLoop)
         for r in range(rangeForLoop):
-            entries_list[r+1].delete(0, 'end')
+            entries_list[r + 1].delete(0, 'end')
 
     entries_list[1].insert(END, eTrack)
     entries_list[2].insert(END, "TMCZ-" + str(planIdRan) + "-" + str(planItemIdRan))
@@ -434,6 +394,7 @@ def presetValues():
 def openFile():
     file = Path(filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")]))
 
+    global records
     records = list()
     with open(file, encoding='utf-8-sig') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -441,23 +402,31 @@ def openFile():
             records.append(row)
             print(str(row))
 
-# remove all characteristics fields
-    while (counter > 0):
-        deleteChar()
-# select the first record
+    # select the first record
     record = records[0]
+    global totalRecordsCount
+    totalRecordsCount = len(records)
+    global selectedRecordNumber
+    selectedRecordNumber = 0
+    updateRecordLabel()
 
+    printRecord(record)
 
-    if entries_list[1].get() != "":
-        rangeForLoop = len(entries_list)
-        for r in range(rangeForLoop):
-            entries_list[r].delete(0, 'end')
+    # display filename
+    entries_list[0].delete(0, "end")
+    entries_list[0].insert(0, file.stem)
 
+def printRecord(record):
+    # remove all characteristics fields
+    while counter > 0:
+        deleteChar()
 
+    # delete all textbox values except filename
+    rangeForLoop = len(entries_list)
+    for r in range(rangeForLoop)[1:]:
+        entries_list[r].delete(0, 'end')
 
-    entries_list[0].delete(0,"end")
-    entries_list[0].insert(0,file.stem)
-
+    # Write values. if it does not exist, add it as a characterstic.
     for key, value in record.items():
         if key in dataElements:
             textbox = dataElements[key]["entry"]
@@ -467,40 +436,222 @@ def openFile():
             addChar("", key, value)
 
 
+def goToRecord(shift):
+    global selectedRecordNumber
+    global totalRecordsCount
+
+    # check if not out of bounds
+    if shift < 0 and selectedRecordNumber + shift < 0:
+        return False
+
+    if shift > 0 and selectedRecordNumber + shift >= totalRecordsCount:
+        return False
+
+    saveCurrentRecord()
+
+    selectedRecordNumber += shift
+    updateRecordLabel()
+
+    # display selected record
+    record = records[selectedRecordNumber]
+    printRecord(record)
+
+
+def updateRecordLabel():
+    recordLabelString.set(str(selectedRecordNumber + 1) + "/" + str(totalRecordsCount))
+
+
+def saveCurrentRecord():
+    global selectedRecordNumber
+    global records
+    global totalRecordsCount
+
+    record = {}
+
+    # remove filename it will not be saved
+    elements = copy.copy(myElements.get())
+    try:
+        elements.pop("fileName")
+    except:
+        pass
+
+    # write data in textboxes to record (excecpt characterstics)
+    for key in elements:
+        record[key] = elements[key]["entry"].get()
+
+    # write characteristics
+    for name, value in zip(characteristicsNameEntry, characteristicsEntry):
+        record[name.get()] = value.get()
+
+    # finally, write record into records element
+    try:
+        records[selectedRecordNumber] = record
+    except:
+        records.append(record)
+
+    # save characteristic name/count change for all records
+    #   create a new mini dict of new chars only
+    new_keys_list = list(record)
+    del new_keys_list[:19]
+    new_values = record.values()
+    new_values_list = list(new_values)
+    del new_values_list[:19]
+    newchars = {}
+    for key, value in zip(new_keys_list, new_values_list):
+        newchars[key] = value
+
+
+    for oldrecord in records:
+        # get characteristic keys - index 19 and up
+        old_keys_list = list(oldrecord)
+        del old_keys_list[:19]
+
+                              
+        # get values for keys
+        old_values = oldrecord.values()
+        old_values_list = list(old_values)
+        del old_values_list[:19]
+
+
+        # create a new mini dict of chars only, delete chars from old record
+        oldchars = {}
+        for key, value in zip(old_keys_list, old_values_list):
+            oldchars[key] = value
+            try:
+                del oldrecord[key]
+            except:
+                pass
+
+        #replace old chars with new with old values
+        for key in newchars:
+            if key in oldchars:
+                oldrecord[key] = oldchars[key]
+            else:
+                oldrecord[key] = ""
+
+
+        print("oldchar: " + str(oldchars))
+        print("newchar: " + str(newchars))
+
+
+        # put new characteristics with old values
+
+        # keysList = list(record)
+        #
+        # loopRange = range(len(record))
+        #
+        # for i in loopRange:
+        #     # skip non characteristic elements
+        #     if i >= 19:
+        #         continue
+        #     # save values of old characteristic
+        #     # record[]
+
+
+    print(str(len(record)))
+    print(record)
+
+    # for element in elements:
+    # print(elements)
+
+    # rangeForLoop = len(entries_list)
+    # for r in range(rangeForLoop):
+    #     record[r] =
+    #     entries_list[r].delete(0, 'end')
+    #
+    # i = range(counter)
+    # for
+
+    return True
+
+
+def addRecord():
+    global selectedRecordNumber
+    global totalRecordsCount
+    global records
+
+    saveCurrentRecord()
+    totalRecordsCount += 1
+    selectedRecordNumber = totalRecordsCount - 1
+    records.append({})
+    updateRecordLabel()
+
+    return True
+
+def deleteRecord():
+    global selectedRecordNumber
+    global totalRecordsCount
+    global records
+
+    if totalRecordsCount <= 1:
+        return False
+
+    totalRecordsCount -= 1
+    if selectedRecordNumber + 1 > totalRecordsCount:
+        selectedRecordNumber = totalRecordsCount - 1
+    del records[-1]
+    updateRecordLabel()
+    printRecord(records[selectedRecordNumber])
+
+
+
+
+    return True
+
+
+
 ##############
 #####Buttons
 ##############
-#Characteristics part
+# Characteristics part
 # command_Lable = Label(topFrame, text="command: ")
 characteristicsLabel = Label(midButtonFrame, text="Characteristics  ")
 characteristicsLabel.grid(row=0, column=0, pady=15, sticky=E)
 
-#main button
+# main button
 requestButton = Button(bottomFrame, text="Generate request")
 requestButton.grid(row=0, sticky=N)
 requestButton.bind("<Button-1>", printsumstuff)
 
-#labels for file generation
+# labels for file generation
 # Label(bottomFrame, text="csv").grid(row=1, column=0, sticky=S)
-chkbtn1 = Checkbutton(bottomFrame, text="csv", variable=chvar1, onvalue = 1, offvalue = 0)
-chkbtn2 = Checkbutton(bottomFrame, text="xml", variable=chvar2, onvalue = 1, offvalue = 0)
+chkbtn1 = Checkbutton(bottomFrame, text="csv", variable=chvar1, onvalue=1, offvalue=0)
+chkbtn2 = Checkbutton(bottomFrame, text="xml", variable=chvar2, onvalue=1, offvalue=0)
 chkbtn1.grid(row=1, column=0, sticky=W)
 chkbtn2.grid(row=2, column=0, sticky=W)
 
-
-#secondary button
+# secondary button
 addCharacteristicButton = Button(midButtonFrame, text="Add a characteristic")
 addCharacteristicButton.grid(row=0, column=1, pady=15)
 addCharacteristicButton.bind("<Button-1>", addChar)
 
-#tertiary button
+# tertiary button
 setValuesButton = Button(midButtonFrame, text="Delete a characteristic", command=deleteChar)
 setValuesButton.grid(row=0, column=2, pady=15)
 
-#quaternary button
-setValuesButton = Button(topButtonFrame, text="Generate values", command=presetValues)
-setValuesButton.grid(row=0, column=1, pady=15, sticky=W)
+# quaternary button
 openFileButton = Button(topButtonFrame, text="Open file", command=openFile)
-openFileButton.grid(row=0, column=2, pady=15, sticky=W)
+openFileButton.grid(row=0, column=1, pady=15, padx=(0,20), sticky=W)
+
+setValuesButton = Button(topButtonFrame, text="Generate values", command=presetValues)
+setValuesButton.grid(row=0, column=2, pady=15, padx=(0,32), sticky=W)
+
+prevRecordButton = Button(topButtonFrame, text="←", width=2, command=lambda: goToRecord(-1))
+prevRecordButton.grid(row=0, column=3, pady=15, sticky=W)
+
+recordLabel = Label(topButtonFrame, font=(None, 14), textvariable=recordLabelString)
+recordLabel.grid(row=0, column=4, pady=15, sticky=W)
+
+nextRecordButton = Button(topButtonFrame, text="→", width=2, command=lambda: goToRecord(1))
+nextRecordButton.grid(row=0, column=5, pady=15, sticky=W)
+
+AddRecordButton = Button(topButtonFrame, text="+", width=2, command=addRecord)
+AddRecordButton.grid(row=0, column=6, pady=15, padx=(10,0), sticky=W)
+
+DeleteRecordButton = Button(topButtonFrame, text="-", width=2, command=deleteRecord)
+DeleteRecordButton.grid(row=0, column=7, pady=15, sticky=W)
+
+#saveRecordButton = Button(topButtonFrame, text="SAVE", command=saveCurrentRecord)
+#saveRecordButton.grid(row=0, column=8, pady=15, padx=10, sticky=W)
 
 topFrame.mainloop()
