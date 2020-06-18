@@ -13,7 +13,7 @@ from bin import data_elements as de
 
 # Okno
 root = Tk()
-root.geometry("900x700")
+root.geometry("950x750")
 root.title("Facade request generator")
 
 # setup
