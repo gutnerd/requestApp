@@ -604,7 +604,7 @@ def deleteRecord():
 
 def saveCSVbutton():
     saveCurrentRecord()
-    filepath = Path(filedialog.asksaveasfilename(filetypes=[("CSV files", "*.csv")]))
+    filepath = Path(filedialog.asksaveasfilename(filetypes=[("CSV files", "*.csv")], initialfile=entries_list[0].get(), defaultextension="csv"))
     if filepath.name == "":
         return False
 
