@@ -80,7 +80,7 @@ canvas.create_window((77, 600), window=lowCharacteristicsFrame, anchor="nw")
 canvas.configure(yscrollcommand=scrollbar.set)
 
 topFrame.pack(side=LEFT, anchor=N, padx=25, pady=25)
-canvas.pack(side=LEFT, fill="both", expand=TRUE, ipady=500, ipadx=100)
+canvas.pack(side=LEFT, fill="both", expand=TRUE, ipady=500, ipadx=160)
 scrollbar.pack(side=RIGHT, fill=Y)
 
 bottomFrame = Frame(root)
@@ -316,10 +316,10 @@ def addChar(self, charName="", charValue=""):
     characteristics[-1] = Label(lowCharacteristicsFrame, text=characteristics[-1])
     characteristics[-1].grid(row=21 + counter, column=0, sticky=E)
 
-    characteristicsNameEntry.append(Entry(lowCharacteristicsFrame, name="characteristicNameEntry" + str(counter - 1)))
+    characteristicsNameEntry.append(Entry(lowCharacteristicsFrame, name="characteristicNameEntry" + str(counter - 1), width="40"))
     characteristicsNameEntry[-1].grid(row=21 + counter, column=1, sticky=E)
 
-    characteristicsEntry.append(Entry(lowCharacteristicsFrame, name="characteristicEntry" + str(counter - 1)))
+    characteristicsEntry.append(Entry(lowCharacteristicsFrame, name="characteristicEntry" + str(counter - 1), width="40"))
     characteristicsEntry[-1].grid(row=21 + counter, column=2, sticky=E)
 
     characteristicsNameEntry[-1].insert(0, charName)
@@ -633,12 +633,12 @@ chkbtn1.select()
 chkbtn2.select()
 
 # secondary button
-addCharacteristicButton = Button(midButtonFrame, text="Add a characteristic")
-addCharacteristicButton.grid(row=0, column=1, pady=15)
+addCharacteristicButton = Button(midButtonFrame, text="Add")
+addCharacteristicButton.grid(row=0, column=1, pady=15, padx=(0,3))
 addCharacteristicButton.bind("<Button-1>", addChar)
 
 # tertiary button
-setValuesButton = Button(midButtonFrame, text="Delete a characteristic", command=deleteChar)
+setValuesButton = Button(midButtonFrame, text="Delete", command=deleteChar)
 setValuesButton.grid(row=0, column=2, pady=15)
 
 # quaternary button
@@ -658,7 +658,7 @@ nextRecordButton = Button(topButtonFrame, text="→", width=2, command=lambda: g
 nextRecordButton.grid(row=0, column=5, pady=15, sticky=W)
 
 AddRecordButton = Button(topButtonFrame, text="+", width=2, command=addRecord)
-AddRecordButton.grid(row=0, column=6, pady=15, padx=(10,0), sticky=W)
+AddRecordButton.grid(row=0, column=6, pady=15, padx=(10,3), sticky=W)
 
 DeleteRecordButton = Button(topButtonFrame, text="-", width=2, command=deleteRecord)
 DeleteRecordButton.grid(row=0, column=7, pady=15, sticky=W)
