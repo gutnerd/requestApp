@@ -243,12 +243,8 @@ def printsumstuff(event):
         #csv file
         if chvar1.get() == 1:
 
-            csvcolumns = list(records[0])
             filepath = Path("out/csv/" + FileName + ".csv")
-            with open(filepath, 'w') as csvfile:
-                writer = csv.DictWriter(csvfile, fieldnames=csvcolumns, lineterminator='\n')
-                writer.writeheader()
-                writer.writerows(records)
+            saveCSV(filepath)
 
 
 
@@ -298,6 +294,15 @@ def printsumstuff(event):
         entries_list[0]['bg'] = 'WHITE'
     else:
         entries_list[0]['bg'] = 'RED'
+
+
+def saveCSV(filepath):
+    global records
+    csvcolumns = list(records[0])
+    with open(filepath, 'w') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=csvcolumns, lineterminator='\n')
+        writer.writeheader()
+        writer.writerows(records)
 
 
 ###########################################################
@@ -393,6 +398,8 @@ def presetValues():
 
 def openFile():
     file = Path(filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")]))
+    if file.name == "":
+        return False
 
     global records
     records = list()
@@ -593,12 +600,15 @@ def deleteRecord():
     updateRecordLabel()
     printRecord(records[selectedRecordNumber])
 
-
-
-
     return True
 
+def saveCSVbutton():
+    saveCurrentRecord()
+    filepath = Path(filedialog.asksaveasfilename(filetypes=[("CSV files", "*.csv")]))
+    if filepath.name == "":
+        return False
 
+    saveCSV(filepath)
 
 ##############
 #####Buttons
@@ -619,6 +629,8 @@ chkbtn1 = Checkbutton(bottomFrame, text="csv", variable=chvar1, onvalue=1, offva
 chkbtn2 = Checkbutton(bottomFrame, text="xml", variable=chvar2, onvalue=1, offvalue=0)
 chkbtn1.grid(row=1, column=0, sticky=W)
 chkbtn2.grid(row=2, column=0, sticky=W)
+chkbtn1.select()
+chkbtn2.select()
 
 # secondary button
 addCharacteristicButton = Button(midButtonFrame, text="Add a characteristic")
@@ -651,7 +663,7 @@ AddRecordButton.grid(row=0, column=6, pady=15, padx=(10,0), sticky=W)
 DeleteRecordButton = Button(topButtonFrame, text="-", width=2, command=deleteRecord)
 DeleteRecordButton.grid(row=0, column=7, pady=15, sticky=W)
 
-#saveRecordButton = Button(topButtonFrame, text="SAVE", command=saveCurrentRecord)
-#saveRecordButton.grid(row=0, column=8, pady=15, padx=10, sticky=W)
+saveCSVButton = Button(topButtonFrame, text="Save to CSV", command=saveCSVbutton)
+saveCSVButton.grid(row=0, column=8, pady=15, padx=10, sticky=W)
 
 topFrame.mainloop()
