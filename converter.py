@@ -299,7 +299,7 @@ def printsumstuff(event):
 def saveCSV(filepath):
     global records
     csvcolumns = list(records[0])
-    with open(filepath, 'w') as csvfile:
+    with open(filepath, 'w', encoding='utf-8-sig') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=csvcolumns, lineterminator='\n')
         writer.writeheader()
         writer.writerows(records)
@@ -403,11 +403,20 @@ def openFile():
 
     global records
     records = list()
-    with open(file, encoding='utf-8-sig') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            records.append(row)
-            print(str(row))
+    #try opening with file with utf-8 or utf-16 encoding (should be utf-8 mostly)
+    try:
+        with open(file, encoding='utf-8-sig') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                records.append(row)
+                print(str(row))
+    except UnicodeError:
+        with open(file, encoding='utf-16') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                records.append(row)
+                print(str(row))
+
 
     # select the first record
     record = records[0]
